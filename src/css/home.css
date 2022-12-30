@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+  --color-red: #ec362d;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-error: #ff0b0b;
+  --color-hit: #009c22;
+  --background-color: #e5e5e5;
+  --home-text-grey: #b9b9b9;
+  --home-border-dotted: #d4d4d4;
+  --form-text-color: #bababa;
+  --form-border-color: #d1d1d1;
+}
+body {
+  width: 100vw;
+  height: 100vh;
+
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+
+  background-color: var(--background-color);
+}
