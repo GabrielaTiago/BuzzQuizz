@@ -185,9 +185,9 @@ function buildsQuestions(numberOfQuestions) {
           <h3 class="create-quizz-title">
             Pergunta ${i}
           </h3>
-          <i class="fa-solid fa-pen-to-square icon"></i>
+          <i class="fa-solid fa-pen-to-square icon" onclick="editForm(this)"></i>
         </div>
-        <div class="question-container">
+        <div class="create-quizz-data hidden">
           <div class="box-inputs">
             <div class="input question">
               <input class="form-input" required type="text" placeholder="Texto da pergunta"/>
@@ -197,7 +197,7 @@ function buildsQuestions(numberOfQuestions) {
             </div>
           </div>
         </div>
-        <div class="question-container">
+        <div class="create-quizz-data hidden">
           <h3 class="create-quizz-title" name="create-quizz-questions">
             Resposta correta
           </h3>
@@ -210,7 +210,7 @@ function buildsQuestions(numberOfQuestions) {
             </div>
           </div>
         </div>
-        <div class="question-container">
+        <div class="create-quizz-data hidden">
           <h3 class="create-quizz-title" name="create-quizz-questions">
             Respostas incorretas
           </h3>
@@ -243,6 +243,27 @@ function buildsQuestions(numberOfQuestions) {
     `;
     allQuestions.innerHTML += questionHTML;
   }
+}
+
+function editForm(element) {
+  let alreadyEdited = document.querySelector(".edited");
+
+  if (alreadyEdited) {
+    alreadyEdited.classList.remove("edited");
+    alreadyEdited.style.display = "block";
+
+    const container = alreadyEdited.parentNode.parentNode;
+    const questions = container.querySelectorAll(".create-quizz-data");
+
+    questions.forEach((element) => element.classList.add("hidden"));
+  }
+  element.classList.add("edited");
+  element.style.display = "none";
+
+  const elementsContainer = element.parentNode.parentNode;
+  const hiddenElements = elementsContainer.querySelectorAll(".hidden");
+
+  hiddenElements.forEach((element) => element.classList.remove("hidden"));
 }
 
 function clearErrors() {
