@@ -13,7 +13,7 @@ function buildsElementsOfTheQuizCreationPage() {
 
   const formContent = `
     <div class="create-quizz-page">
-      <h3 class="create-quizz-title">Crie suas perguntas</h3>
+      <h3 class="create-quizz-title">Comece pelo começo</h3>
       <form class="create-quizz-form" name="create-quizz-init" onsubmit="handleFormSubmit(event)">
         <div class="form-box">
           <div class="input input-title">
@@ -76,7 +76,7 @@ function validatesInitialFormData(values) {
     isValidNumberOfQuestions &&
     isValidNumberOfLevels
   ) {
-    console.log("Chama próxima tela");
+    buildsElementsOfTheQuestionsCriationPage(numberOfQuestions);
   }
 }
 
@@ -153,6 +153,96 @@ function validatesTheNumberOfLevels(numberOfLevels) {
     return false;
   }
   return true;
+}
+
+function buildsElementsOfTheQuestionsCriationPage(numberOfQuestions) {
+  document.querySelector(".create-quizz-page").remove();
+
+  let container = document.querySelector("main");
+
+  const questionsContent = `
+    <div class="create-quizz-page">
+      <h3 class="create-quizz-title">Crie suas perguntas</h3>
+      <form class="create-quizz-form" name="create-quizz-questions">
+        <div class="all-questions"></div>
+        <button type="submit" class="form-button">Prosseguir para criar níveis</button>
+      </form>
+    </div>
+  `;
+
+  container.innerHTML += questionsContent;
+
+  buildsQuestions(numberOfQuestions);
+}
+
+function buildsQuestions(numberOfQuestions) {
+  let allQuestions = document.querySelector(".all-questions");
+
+  for (let i = 1; i <= numberOfQuestions; i++) {
+    const questionHTML = `
+      <div class="form-box">
+        <div class="create-quizz-toggle">
+          <h3 class="create-quizz-title">
+            Pergunta ${i}
+          </h3>
+          <i class="fa-solid fa-pen-to-square icon"></i>
+        </div>
+        <div class="question-container">
+          <div class="box-inputs">
+            <div class="input question">
+              <input class="form-input" required type="text" placeholder="Texto da pergunta"/>
+            </div>
+            <div class="input color">
+              <input class="form-input" required type="text" placeholder="Cor de fundo da pergunta"/>
+            </div>
+          </div>
+        </div>
+        <div class="question-container">
+          <h3 class="create-quizz-title" name="create-quizz-questions">
+            Resposta correta
+          </h3>
+          <div class="box-inputs">
+            <div class="input correct-answer">
+              <input class="form-input" required type="text" placeholder="Resposta correta"/>
+            </div>
+            <div class="input">
+              <input class="form-input" required type="text" placeholder="URL da imagem"/>
+            </div>
+          </div>
+        </div>
+        <div class="question-container">
+          <h3 class="create-quizz-title" name="create-quizz-questions">
+            Respostas incorretas
+          </h3>
+          <div class="box-inputs">
+            <div class="input">
+              <input class="form-input" required type="text" placeholder="Resposta incorreta 1"/>
+            </div>
+            <div class="input">
+              <input class="form-input" required type="text" placeholder="URL da imagem 1"/>
+            </div>
+          </div>
+          <div class="box-inputs">
+            <div class="input">
+              <input class="form-input" required type="text" placeholder="Resposta incorreta 2"/>
+            </div>
+            <div class="input">
+              <input class="form-input" required type="text" placeholder="URL da imagem 2"/>
+            </div>
+          </div>
+          <div class="box-inputs">
+            <div class="input">
+              <input class="form-input" required type="text" placeholder="Resposta incorreta 3"/>
+            </div>
+            <div class="input">
+              <input class="form-input" required type="text" placeholder="URL da imagem 3"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    allQuestions.innerHTML += questionHTML;
+  }
 }
 
 function clearErrors() {
