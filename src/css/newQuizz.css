@@ -7,11 +7,8 @@
   flex-direction: column;
   align-items: center;
 }
-
 .create-quizz-page {
-  margin: 2%;
   gap: 30px;
-  text-align: center;
 }
 .create-quizz-title {
   font-weight: 700;
@@ -71,7 +68,37 @@
   line-height: 19px;
   margin-bottom: 5px;
 }
-
+.all-questions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.create-quizz-toggle {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.question-container {
+  width: 100%;
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.icon {
+  font-size: 22px;
+}
+.box-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.hidden {
+  display: none;
+}
 @media screen and (min-width: 600px) {
   .create-quizz-page {
     width: 600px;
