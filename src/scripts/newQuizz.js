@@ -1,3 +1,5 @@
+addKeyDownEvents();
+
 function openNewQuizzPage() {
   let homePageElements = document.querySelectorAll(".home-page");
 
@@ -159,4 +161,12 @@ function clearErrors() {
 
   errorBackground.forEach((element) => element.classList.remove("input-error"));
   errorElements.forEach((element) => element.remove());
+}
+
+function addKeyDownEvents() {
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") handleFormSubmit(event);
+
+    if (event.key === "Tab") clearErrors();
+  });
 }
