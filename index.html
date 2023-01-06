@@ -20,17 +20,18 @@
 
     <link rel="stylesheet" href="src/css/reset.css" />
     <link rel="stylesheet" href="src/css/home.css" />
+    <link rel="stylesheet" href="src/css/newQuizz.css">
 
     <title>BuzzQuizz</title>
   </head>
   <body>
     <header class="header"><h1 class="app-title" onclick="goToHomePage()">BuzzQuizz</h1></header>
     <main class="main">
-      <div class="create-quiz-container">
+      <div class="create-quiz-container home-page">
         <h4 class="create-quiz-text">Você não criou nenhum </br> quizz ainda :(</h4>
-        <button class="create-quiz-button">Criar Quiz</button>
+        <button class="create-quiz-button" onclick="openNewQuizzPage()">Criar Quiz</button>
       </div>
-      <div class="all-quizzes-container">
+      <div class="all-quizzes-container home-page">
         <h3 class="all-quizzes-title">Todos os Quizzes</h3>
         <div class="all-quizzes"></div>
       </div>
@@ -38,4 +39,5 @@
   </body>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="src/scripts/home.js"></script>
+  <script src="src/scripts/newQuizz.js"></script>
 </html>
