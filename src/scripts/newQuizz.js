@@ -64,7 +64,7 @@ function getInitialFormData() {
 
 function validatesInitialFormData(values) {
   const { title, image, numberOfQuestions, numberOfLevels } = values;
-  const isValidTitle = validatesTheTitle(title);
+  const isValidTitle = validadesTheQuizzTitle(title);
   const isValidImage = validatesTheImageURL(image);
   const isValidNumberOfQuestions =
     validatesTheNumberOfQuestions(numberOfQuestions);
@@ -80,7 +80,7 @@ function validatesInitialFormData(values) {
   }
 }
 
-function validatesTheTitle(title) {
+function validadesTheQuizzTitle(title) {
   const invalidTitle = title.length < 20 || title.length >= 65;
 
   if (invalidTitle) {
@@ -98,16 +98,14 @@ function validatesTheTitle(title) {
   return true;
 }
 
-function validatesTheImageURL(image) {
+function validatesTheImageURL(image, element) {
   const imageURLRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g;
   const validImage = imageURLRegex.test(image);
 
   if (!validImage) {
-    document
-      .querySelector(".input-image .form-input")
-      .classList.add("input-error");
+    element.classList.add("input-error");
 
-    const container = document.querySelector(".input-image");
+    const container = element.parentNode;
     const spanError = `
       <span class="error-message">O valor informado não é uma URL válida</span>
     `;
@@ -189,11 +187,11 @@ function buildsQuestions(numberOfQuestions) {
         </div>
         <div class="create-quizz-data hidden">
           <div class="box-inputs title-color">
-            <div class="input text">
-              <input class="form-input" required type="text" placeholder="Texto da pergunta"/>
+            <div class="input input-title">
+              <input class="form-input input-title" type="text" placeholder="Texto da pergunta"/>
             </div>
-            <div class="input color">
-              <input class="form-input" required type="text" placeholder="Cor de fundo da pergunta"/>
+            <div class="input input-color">
+              <input class="form-input input-color" type="text" placeholder="Cor de fundo da pergunta"/>
             </div>
           </div>
         </div>
@@ -202,11 +200,11 @@ function buildsQuestions(numberOfQuestions) {
             Resposta correta
           </h3>
           <div class="box-inputs answers">
-            <div class="input">
-              <input class="form-input correct-answer" required type="text" placeholder="Resposta correta"/>
+            <div class="input input-txt">
+              <input class="form-input input-txt correct-answer" type="text" placeholder="Resposta correta"/>
             </div>
-            <div class="input">
-              <input class="form-input" required type="text" placeholder="URL da imagem"/>
+            <div class="input input-image">
+              <input class="form-input input-image" type="text" placeholder="URL da imagem"/>
             </div>
           </div>
         </div>
@@ -215,27 +213,27 @@ function buildsQuestions(numberOfQuestions) {
             Respostas incorretas
           </h3>
           <div class="box-inputs answers">
-            <div class="input">
-              <input class="form-input" required type="text" placeholder="Resposta incorreta 1"/>
+            <div class="input input-txt">
+              <input class="form-input input-txt" type="text" placeholder="Resposta incorreta 1"/>
             </div>
-            <div class="input">
-              <input class="form-input" required type="text" placeholder="URL da imagem 1"/>
-            </div>
-          </div>
-          <div class="box-inputs answers">
-            <div class="input">
-              <input class="form-input" required type="text" placeholder="Resposta incorreta 2"/>
-            </div>
-            <div class="input">
-              <input class="form-input" required type="text" placeholder="URL da imagem 2"/>
+            <div class="input input-image">
+              <input class="form-input input-image" type="text" placeholder="URL da imagem 1"/>
             </div>
           </div>
           <div class="box-inputs answers">
-            <div class="input">
-              <input class="form-input" required type="text" placeholder="Resposta incorreta 3"/>
+            <div class="input input-txt">
+              <input class="form-input input-txt" type="text" placeholder="Resposta incorreta 2"/>
             </div>
-            <div class="input">
-              <input class="form-input" required type="text" placeholder="URL da imagem 3"/>
+            <div class="input input-image">
+              <input class="form-input input-image" type="text" placeholder="URL da imagem 2"/>
+            </div>
+          </div>
+          <div class="box-inputs answers">
+            <div class="input input-txt">
+              <input class="form-input input-txt" type="text" placeholder="Resposta incorreta 3"/>
+            </div>
+            <div class="input input-image">
+              <input class="form-input input-image" type="text" placeholder="URL da imagem 3"/>
             </div>
           </div>
         </div>
@@ -270,6 +268,15 @@ function handleQuestionsForm(event) {
   event.preventDefault();
   clearErrors();
   getsQuestionsFormData();
+  checksTheQuestionFormForErrors();
+}
+
+function checksTheQuestionFormForErrors() {
+  const errors = document.querySelector(".form-box .error-message");
+
+  if (errors === null) {
+    console.log("Chama próxima tela");
+  }
 }
 
 function getsQuestionsFormData() {
@@ -279,7 +286,7 @@ function getsQuestionsFormData() {
 
   allQuestions.forEach((element) => {
     let allAnswers = element.querySelectorAll(".answers");
-    
+
     allAnswers.forEach((item) => {
       let answer = getsTheAnswers(item);
       answers.push(answer);
@@ -302,8 +309,19 @@ function getsTitleAndColor(element) {
   let question = {};
 
   formInputsValues.forEach((element) => {
+    const isTitle = element.classList.contains("input-title");
+    const isColor = element.classList.contains("input-color");
     const { value } = element;
+
     questionsValues.push(value);
+
+    if (isTitle) {
+      validadesTheQuestionTitle(value, element);
+    }
+
+    if (isColor) {
+      validatesTheColor(value, element);
+    }
   });
 
   questionsKeys.forEach((item, index) => {
@@ -315,19 +333,29 @@ function getsTitleAndColor(element) {
 
 function getsTheAnswers(element) {
   const formInputsValues = element.querySelectorAll(".answers .form-input");
-  const answersKeys = ["text", "image", "isCorrectAnswer"];
+  const answersKeys = ["text", "isCorrectAnswer", "image"];
   let answersValues = [];
   let answers = {};
 
   formInputsValues.forEach((element) => {
     const isCorrectAnswer = element.classList.contains("correct-answer");
+    const isText = element.classList.contains("input-txt");
+    const isImage = element.classList.contains("input-image");
     const { value } = element;
+
     answersValues.push(value);
 
     if (isCorrectAnswer) {
       answersValues.push(true);
     } else {
       answersValues.push(false);
+    }
+
+    if (isText) {
+      validatesTheQuestionText(value, element);
+    }
+    if (isImage) {
+      validatesTheImageURL(value, element);
     }
   });
 
@@ -336,6 +364,56 @@ function getsTheAnswers(element) {
   });
 
   return answers;
+}
+
+function validadesTheQuestionTitle(title, element) {
+  const invalidTitle = title.length < 20;
+
+  if (invalidTitle) {
+    element.classList.add("input-error");
+
+    const container = element.parentNode;
+    const spanError = `
+      <span class="error-message">Pergunta com apenas ${title.length} caracteres. Necessita ter no mínimo 20 caracteres para ser válida</span>
+    `;
+    container.innerHTML += spanError;
+    return false;
+  }
+  return true;
+}
+
+function validatesTheColor(color, element) {
+  const colorRegex = new RegExp(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/);
+  const validColor = colorRegex.test(color);
+
+  if (!validColor) {
+    element.classList.add("input-error");
+
+    const container = element.parentNode;
+    const spanError = `
+      <span class="error-message">O valor informado não é uma cor válida</span>
+    `;
+    container.innerHTML += spanError;
+    return false;
+  }
+  return true;
+}
+
+function validatesTheQuestionText(text, element) {
+  const validText = text.length >= 1;
+
+  if (!validText) {
+    element.classList.add("input-error");
+
+    const container = element.parentNode;
+    const spanError = `
+        <span class="error-message">Este campo é obrigatório</span>
+      `;
+    container.innerHTML += spanError;
+
+    return false;
+  }
+  return true;
 }
 
 function clearErrors() {
