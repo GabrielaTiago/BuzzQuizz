@@ -163,7 +163,7 @@ function buildsElementsOfTheQuestionsCriationPage(numberOfQuestions) {
   const questionsContent = `
     <div class="create-quizz-page">
       <h3 class="create-quizz-title">Crie suas perguntas</h3>
-      <form class="create-quizz-form" name="create-quizz-questions">
+      <form class="create-quizz-form" name="create-quizz-questions" onsubmit="handleQuestionsForm(event)">
         <div class="all-questions"></div>
         <button type="submit" class="form-button">Prosseguir para criar níveis</button>
       </form>
@@ -188,8 +188,8 @@ function buildsQuestions(numberOfQuestions) {
           <i class="fa-solid fa-pen-to-square icon" onclick="editForm(this)"></i>
         </div>
         <div class="create-quizz-data hidden">
-          <div class="box-inputs">
-            <div class="input question">
+          <div class="box-inputs title-color">
+            <div class="input text">
               <input class="form-input" required type="text" placeholder="Texto da pergunta"/>
             </div>
             <div class="input color">
@@ -201,8 +201,8 @@ function buildsQuestions(numberOfQuestions) {
           <h3 class="create-quizz-title" name="create-quizz-questions">
             Resposta correta
           </h3>
-          <div class="box-inputs">
-            <div class="input correct-answer">
+          <div class="box-inputs correct">
+            <div class="input">
               <input class="form-input" required type="text" placeholder="Resposta correta"/>
             </div>
             <div class="input">
@@ -214,7 +214,7 @@ function buildsQuestions(numberOfQuestions) {
           <h3 class="create-quizz-title" name="create-quizz-questions">
             Respostas incorretas
           </h3>
-          <div class="box-inputs">
+          <div class="box-inputs incorrect">
             <div class="input">
               <input class="form-input" required type="text" placeholder="Resposta incorreta 1"/>
             </div>
@@ -222,7 +222,7 @@ function buildsQuestions(numberOfQuestions) {
               <input class="form-input" required type="text" placeholder="URL da imagem 1"/>
             </div>
           </div>
-          <div class="box-inputs">
+          <div class="box-inputs incorrect">
             <div class="input">
               <input class="form-input" required type="text" placeholder="Resposta incorreta 2"/>
             </div>
@@ -230,7 +230,7 @@ function buildsQuestions(numberOfQuestions) {
               <input class="form-input" required type="text" placeholder="URL da imagem 2"/>
             </div>
           </div>
-          <div class="box-inputs">
+          <div class="box-inputs incorrect">
             <div class="input">
               <input class="form-input" required type="text" placeholder="Resposta incorreta 3"/>
             </div>
@@ -264,6 +264,97 @@ function editForm(element) {
   const hiddenElements = elementsContainer.querySelectorAll(".hidden");
 
   hiddenElements.forEach((element) => element.classList.remove("hidden"));
+}
+
+function handleQuestionsForm(event) {
+  event.preventDefault();
+  clearErrors();
+  getsQuestionsFormData();
+}
+
+function getsQuestionsFormData() {
+  const allQuestions = document.querySelectorAll(".form-box");
+  const questions = [];
+  let answers = [];
+
+  allQuestions.forEach((element) => {
+    let correctAnswer = getsTheCorrectAnswer(element);
+    answers.push(correctAnswer);
+
+    let allIncorrectsAnswers = element.querySelectorAll(".incorrect");
+    allIncorrectsAnswers.forEach((item) => {
+      let incorrectsAnswers = getsTheIncorrectAnswers(item);
+      answers.push(incorrectsAnswers);
+    });
+
+    let question = getsTitleAndColor(element);
+    question = { ...question, answers };
+    questions.push(question);
+
+    answers = [];
+  });
+  
+  return questions;
+}
+
+function getsTitleAndColor(element) {
+  const formInputsValues = element.querySelectorAll(
+    ".title-color .form-input"
+  );
+  const questionsKeys = ["title", "color"];
+  let questionsValues = [];
+  let question = {};
+
+  formInputsValues.forEach((element) => {
+    const { value } = element;
+    questionsValues.push(value);
+  });
+
+  questionsKeys.forEach((item, index) => {
+    question[item] = questionsValues[index];
+  });
+
+  return question;
+}
+
+function getsTheCorrectAnswer(element) {
+  const formInputsValues = element.querySelectorAll(".correct .form-input");
+  const answersKeys = ["text", "image"];
+  let answersValues = [];
+  let answers = {};
+
+  formInputsValues.forEach((element) => {
+    const { value } = element;
+    answersValues.push(value);
+  });
+
+  answersKeys.forEach((item, index) => {
+    answers[item] = answersValues[index];
+  });
+
+  answers = { ...answers, isCorrectAnswer: true };
+
+  return answers;
+}
+
+function getsTheIncorrectAnswers(element) {
+  const formInputsValues = element.querySelectorAll(".incorrect .form-input");
+  const answersKeys = ["text", "image"];
+  let answersValues = [];
+  let answers = {};
+
+  formInputsValues.forEach((element) => {
+    const { value } = element;
+    answersValues.push(value);
+  });
+
+  answersKeys.forEach((item, index) => {
+    answers[item] = answersValues[index];
+  });
+
+  answers = { ...answers, isCorrectAnswer: false };
+
+  return answers;
 }
 
 function clearErrors() {
