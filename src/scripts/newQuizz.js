@@ -201,9 +201,9 @@ function buildsQuestions(numberOfQuestions) {
           <h3 class="create-quizz-title" name="create-quizz-questions">
             Resposta correta
           </h3>
-          <div class="box-inputs correct">
+          <div class="box-inputs answers">
             <div class="input">
-              <input class="form-input" required type="text" placeholder="Resposta correta"/>
+              <input class="form-input correct-answer" required type="text" placeholder="Resposta correta"/>
             </div>
             <div class="input">
               <input class="form-input" required type="text" placeholder="URL da imagem"/>
@@ -214,7 +214,7 @@ function buildsQuestions(numberOfQuestions) {
           <h3 class="create-quizz-title" name="create-quizz-questions">
             Respostas incorretas
           </h3>
-          <div class="box-inputs incorrect">
+          <div class="box-inputs answers">
             <div class="input">
               <input class="form-input" required type="text" placeholder="Resposta incorreta 1"/>
             </div>
@@ -222,7 +222,7 @@ function buildsQuestions(numberOfQuestions) {
               <input class="form-input" required type="text" placeholder="URL da imagem 1"/>
             </div>
           </div>
-          <div class="box-inputs incorrect">
+          <div class="box-inputs answers">
             <div class="input">
               <input class="form-input" required type="text" placeholder="Resposta incorreta 2"/>
             </div>
@@ -230,7 +230,7 @@ function buildsQuestions(numberOfQuestions) {
               <input class="form-input" required type="text" placeholder="URL da imagem 2"/>
             </div>
           </div>
-          <div class="box-inputs incorrect">
+          <div class="box-inputs answers">
             <div class="input">
               <input class="form-input" required type="text" placeholder="Resposta incorreta 3"/>
             </div>
@@ -278,13 +278,11 @@ function getsQuestionsFormData() {
   let answers = [];
 
   allQuestions.forEach((element) => {
-    let correctAnswer = getsTheCorrectAnswer(element);
-    answers.push(correctAnswer);
-
-    let allIncorrectsAnswers = element.querySelectorAll(".incorrect");
-    allIncorrectsAnswers.forEach((item) => {
-      let incorrectsAnswers = getsTheIncorrectAnswers(item);
-      answers.push(incorrectsAnswers);
+    let allAnswers = element.querySelectorAll(".answers");
+    
+    allAnswers.forEach((item) => {
+      let answer = getsTheAnswers(item);
+      answers.push(answer);
     });
 
     let question = getsTitleAndColor(element);
@@ -293,14 +291,12 @@ function getsQuestionsFormData() {
 
     answers = [];
   });
-  
+
   return questions;
 }
 
 function getsTitleAndColor(element) {
-  const formInputsValues = element.querySelectorAll(
-    ".title-color .form-input"
-  );
+  const formInputsValues = element.querySelectorAll(".title-color .form-input");
   const questionsKeys = ["title", "color"];
   let questionsValues = [];
   let question = {};
@@ -317,42 +313,27 @@ function getsTitleAndColor(element) {
   return question;
 }
 
-function getsTheCorrectAnswer(element) {
-  const formInputsValues = element.querySelectorAll(".correct .form-input");
-  const answersKeys = ["text", "image"];
+function getsTheAnswers(element) {
+  const formInputsValues = element.querySelectorAll(".answers .form-input");
+  const answersKeys = ["text", "image", "isCorrectAnswer"];
   let answersValues = [];
   let answers = {};
 
   formInputsValues.forEach((element) => {
+    const isCorrectAnswer = element.classList.contains("correct-answer");
     const { value } = element;
     answersValues.push(value);
+
+    if (isCorrectAnswer) {
+      answersValues.push(true);
+    } else {
+      answersValues.push(false);
+    }
   });
 
   answersKeys.forEach((item, index) => {
     answers[item] = answersValues[index];
   });
-
-  answers = { ...answers, isCorrectAnswer: true };
-
-  return answers;
-}
-
-function getsTheIncorrectAnswers(element) {
-  const formInputsValues = element.querySelectorAll(".incorrect .form-input");
-  const answersKeys = ["text", "image"];
-  let answersValues = [];
-  let answers = {};
-
-  formInputsValues.forEach((element) => {
-    const { value } = element;
-    answersValues.push(value);
-  });
-
-  answersKeys.forEach((item, index) => {
-    answers[item] = answersValues[index];
-  });
-
-  answers = { ...answers, isCorrectAnswer: false };
 
   return answers;
 }
