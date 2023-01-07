@@ -360,7 +360,6 @@ function getsTheAnswers(element) {
       }
 
       const isValid = validatesTheQuestionText(value, element);
-
       if (isValid) {
         answers = { ...answers, text: value };
       }
@@ -461,7 +460,7 @@ function buildsLevels() {
             <input class="form-input input-title" type="text" placeholder="Título do nível"/>
           </div>
           <div class="input input-percentage">
-            <input class="form-input input-percentage" type="text" placeholder="% de acerto mínima"/>
+            <input class="form-input input-percentage" type="number" placeholder="% de acerto mínima"/>
           </div>
           <div class="input input-image">
             <input class="form-input input-image" type="text" placeholder="URL da imagem do nível"/>
@@ -475,14 +474,6 @@ function buildsLevels() {
 
     allLevels.innerHTML += levelHTML;
   }
-}
-
-function clearErrors() {
-  let errorBackground = document.querySelectorAll(".input .input-error");
-  let errorElements = document.querySelectorAll(".input .error-message");
-
-  errorBackground.forEach((element) => element.classList.remove("input-error"));
-  errorElements.forEach((element) => element.remove());
 }
 
 function handleLevelsForm(event) {
@@ -504,32 +495,110 @@ function getsLevelsFormData() {
   return levels;
 }
 
+function checksTheLevelFormForErrors(levels) {
+  const errors = document.querySelector(".error-message");
+
+  if (errors === null) {
+    quizz = { ...quizz, levels };
+    console.log("finaliza a criação do quizz");
+  }
+}
+
 function getLevelsValues(element) {
   const formInputsValues = element.querySelectorAll(".form-input");
   let level = {};
 
   formInputsValues.forEach((input) => {
     const isTitle = input.classList.contains("input-title");
-    const isPercentege = input.classList.contains("input-percentege");
+    const isPercentage = input.classList.contains("input-percentage");
     const isImage = input.classList.contains("input-image");
     const isDescription = input.classList.contains("input-description");
     const { value } = input;
 
     if (isTitle) {
-      level = { ...level, title: value };
+      const isValid = validadesTheLevelTitle(value, input);
+      if (isValid) {
+        level = { ...level, title: value };
+      }
     }
-    if (isPercentege) {
-      level = { ...level, minValue: value };
+    if (isPercentage) {
+      const percentage = parseFloat(value);
+      const isValid = validatesThePercentage(percentage, input);
+      if (isValid) {
+        level = { ...level, minValue: percentage };
+      }
     }
     if (isImage) {
-      level = { ...level, image: value };
+      const isValid = validatesTheImageURL(value, input);
+      if (isValid) {
+        level = { ...level, image: value };
+      }
     }
     if (isDescription) {
-      level = { ...level, text: value };
+      const isValid = validatesTheDescriptionText(value, input);
+      if (isValid) {
+        level = { ...level, text: value };
+      }
     }
   });
 
   return level;
+}
+
+function validadesTheLevelTitle(title, element) {
+  const invalidTitle = title.length < 10;
+
+  if (invalidTitle) {
+    element.classList.add("input-error");
+
+    const container = element.parentNode;
+    const spanError = `
+      <span class="error-message">Título do nível possui apenas ${title.length} caracteres. Necessita ter no mínimo 10 caracteres para ser válido</span>
+    `;
+    container.innerHTML += spanError;
+    return false;
+  }
+  return true;
+}
+
+function validatesThePercentage(percentage, element) {
+  const invalidPercentage = percentage < 0 || percentage > 100;
+
+  if (invalidPercentage) {
+    element.classList.add("input-error");
+
+    const container = element.parentNode;
+    const spanError = `
+      <span class="error-message">Percentual inválido. Escolha um número entre 0 e 100</span>
+    `;
+    container.innerHTML += spanError;
+    return false;
+  }
+  return true;
+}
+
+function validatesTheDescriptionText(text, element) {
+  const invalidText = text.length < 30;
+
+  if (invalidText) {
+    element.classList.add("input-error");
+
+    const container = element.parentNode;
+    const spanError = `
+      <span class="error-message">Sua descrição possui apenas ${text.length} caracteres. Necessita ter no mínimo 30 caracteres para ser válida</span>
+    `;
+    container.innerHTML += spanError;
+    return false;
+  }
+  return true;
+}
+
+function clearErrors() {
+  let errorBackground = document.querySelectorAll(".input .input-error");
+  let errorElements = document.querySelectorAll(".input .error-message");
+
+  errorBackground.forEach((element) => element.classList.remove("input-error"));
+  errorElements.forEach((element) => element.remove());
 }
 
 function addKeyDownEvents() {
