@@ -18,17 +18,17 @@ function buildsElementsOfTheQuizCreationPage() {
       <h3 class="create-quizz-title">Comece pelo começo</h3>
       <form class="create-quizz-form" name="create-quizz-init" onsubmit="handleFormSubmit(event)">
         <div class="form-box">
-          <div class="input input-title">
-            <input class="form-input" required type="text" placeholder="Título do quizz">
+          <div class="input">
+            <input class="form-input input-title" required type="text" placeholder="Título do quizz">
           </div>
-          <div class="input input-image">
-            <input class="form-input" required type="text"  placeholder="URL da imagem do seu quizz">
+          <div class="input">
+            <input class="form-input input-image" required type="text"  placeholder="URL da imagem do seu quizz">
           </div>
-          <div class="input input-question">
-            <input class="form-input" required type="number" placeholder="Quantidade de pergutas do quizz">
+          <div class="input">
+            <input class="form-input input-question" required type="number" placeholder="Quantidade de pergutas do quizz">
           </div>
-          <div class="input input-level">
-            <input class="form-input" required type="number" placeholder="Quantidade de níveis do quizz">
+          <div class="input">
+            <input class="form-input input-level" required type="number" placeholder="Quantidade de níveis do quizz">
           </div>
         </div>
         <button type="submit" class="form-button">Prosseguir pra criar perguntas</button>
@@ -42,56 +42,71 @@ function buildsElementsOfTheQuizCreationPage() {
 function handleFormSubmit(event) {
   event.preventDefault();
   clearErrors();
-  const values = getInitialFormData();
-  validatesInitialFormData(values);
+  const quizzData = getInitialFormData();
+  validatesInitialFormData(quizzData);
 }
 
 function getInitialFormData() {
   const formInputsValues = document.querySelectorAll(".form-input");
-  const values = {};
-  const objKeys = ["title", "image", "numberOfQuestions", "numberOfLevels"];
-  const formAnswers = [];
+  let quizzData = {};
 
   formInputsValues.forEach((element) => {
+    const isTitle = element.classList.contains("input-title");
+    const isImage = element.classList.contains("input-image");
+    const isNumbOfQuestions = element.classList.contains("input-question");
+    const isNumbOfLevels = element.classList.contains("input-level");
     const { value } = element;
-    formAnswers.push(value);
+
+    if (isTitle) {
+      const isValid = validadesTheQuizzTitle(value, element);
+      if (isValid) {
+        quizzData = { ...quizzData, title: value };
+      }
+    }
+
+    if (isImage) {
+      const isValid = validatesTheImageURL(value, element);
+      if (isValid) {
+        quizzData = { ...quizzData, image: value };
+      }
+    }
+
+    if (isNumbOfQuestions) {
+      const question = parseInt(value);
+      const isValid = validatesTheNumberOfQuestions(question, element);
+      if (isValid) {
+        quizzData = { ...quizzData, numberOfQuestions: question };
+      }
+    }
+
+    if (isNumbOfLevels) {
+      const level = parseInt(value);
+      const isValid = validatesTheNumberOfLevels(level, element);
+      if (isValid) {
+        quizzData = { ...quizzData, numberOfLevels: level };
+      }
+    }
   });
 
-  objKeys.forEach((item, index) => {
-    values[item] = formAnswers[index];
-  });
-
-  return values;
+  return quizzData;
 }
 
-function validatesInitialFormData(values) {
-  const { title, image, numberOfQuestions, numberOfLevels } = values;
-  const isValidTitle = validadesTheQuizzTitle(title);
-  const isValidImage = validatesTheImageURL(image);
-  const isValidNumberOfQuestions =
-    validatesTheNumberOfQuestions(numberOfQuestions);
-  const isValidNumberOfLevels = validatesTheNumberOfLevels(numberOfLevels);
+function validatesInitialFormData(quizzData) {
+  const errors = document.querySelector(".form-box .error-message");
 
-  if (
-    isValidTitle &&
-    isValidImage &&
-    isValidNumberOfQuestions &&
-    isValidNumberOfLevels
-  ) {
-    quizz = values;
-    buildsElementsOfTheQuestionsCriationPage(numberOfQuestions);
+  if (errors === null) {
+    quizz = quizzData;
+    buildsElementsOfTheQuestionsCriationPage();
   }
 }
 
-function validadesTheQuizzTitle(title) {
+function validadesTheQuizzTitle(title, element) {
   const invalidTitle = title.length < 20 || title.length >= 65;
 
   if (invalidTitle) {
-    document
-      .querySelector(".input-title .form-input")
-      .classList.add("input-error");
+    element.classList.add("input-error");
 
-    const container = document.querySelector(".input-title");
+    const container = element.parentNode;
     const spanError = `
       <span class="error-message">Seu título tem ${title.length} caracteres. Necessita ter entre 20 e 65 caracteres para ser válido</span>
     `;
@@ -118,16 +133,13 @@ function validatesTheImageURL(image, element) {
   return true;
 }
 
-function validatesTheNumberOfQuestions(numberOfQuestions) {
-  const number = parseInt(numberOfQuestions);
-  const invalidNumber = number < 3;
+function validatesTheNumberOfQuestions(numberOfQuestions, element) {
+  const invalidNumber = numberOfQuestions < 3;
 
   if (invalidNumber) {
-    document
-      .querySelector(".input-question .form-input")
-      .classList.add("input-error");
+    element.classList.add("input-error");
 
-    const container = document.querySelector(".input-question");
+    const container = element.parentNode;
     const spanError = `
       <span class="error-message">O quizz deve ter no mínimo 3 perguntas</span>
     `;
@@ -137,16 +149,13 @@ function validatesTheNumberOfQuestions(numberOfQuestions) {
   return true;
 }
 
-function validatesTheNumberOfLevels(numberOfLevels) {
-  const number = parseInt(numberOfLevels);
-  const invalidNumber = number < 2;
+function validatesTheNumberOfLevels(numberOfLevels, element) {
+  const invalidNumber = numberOfLevels < 2;
 
   if (invalidNumber) {
-    document
-      .querySelector(".input-level .form-input")
-      .classList.add("input-error");
+    element.classList.add("input-error");
 
-    const container = document.querySelector(".input-level");
+    const container = element.parentNode;
     const spanError = `
       <span class="error-message">O quizz deve ter no mínimo 2 níveis</span>
     `;
@@ -156,7 +165,7 @@ function validatesTheNumberOfLevels(numberOfLevels) {
   return true;
 }
 
-function buildsElementsOfTheQuestionsCriationPage(numberOfQuestions) {
+function buildsElementsOfTheQuestionsCriationPage() {
   document.querySelector(".create-quizz-page").remove();
 
   let container = document.querySelector("main");
