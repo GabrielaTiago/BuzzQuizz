@@ -317,8 +317,6 @@ function getsQuestionsFormData() {
 
 function getsTitleAndColor(element) {
   const formInputsValues = element.querySelectorAll(".title-color .form-input");
-  const questionsKeys = ["title", "color"];
-  let questionsValues = [];
   let question = {};
 
   formInputsValues.forEach((element) => {
@@ -326,19 +324,19 @@ function getsTitleAndColor(element) {
     const isColor = element.classList.contains("input-color");
     const { value } = element;
 
-    questionsValues.push(value);
-
     if (isTitle) {
-      validadesTheQuestionTitle(value, element);
+      const isValid = validadesTheQuestionTitle(value, element);
+      if (isValid) {
+        question = { ...question, title: value };
+      }
     }
 
     if (isColor) {
-      validatesTheColor(value, element);
+      const isValid = validatesTheColor(value, element);
+      if (isValid) {
+        question = { ...question, color: value };
+      }
     }
-  });
-
-  questionsKeys.forEach((item, index) => {
-    question[item] = questionsValues[index];
   });
 
   return question;
@@ -346,8 +344,6 @@ function getsTitleAndColor(element) {
 
 function getsTheAnswers(element) {
   const formInputsValues = element.querySelectorAll(".answers .form-input");
-  const answersKeys = ["text", "isCorrectAnswer", "image"];
-  let answersValues = [];
   let answers = {};
 
   formInputsValues.forEach((element) => {
@@ -356,26 +352,25 @@ function getsTheAnswers(element) {
     const isImage = element.classList.contains("input-image");
     const { value } = element;
 
-    answersValues.push(value);
-
-    if (isCorrectAnswer) {
-      answersValues.push(true);
-    } else {
-      answersValues.push(false);
-    }
-
     if (isText) {
-      validatesTheQuestionText(value, element);
-    }
-    if (isImage) {
-      validatesTheImageURL(value, element);
+      if (isCorrectAnswer) {
+        answers = { ...answers, isCorrectAnswer: true };
+      } else {
+        answers = { ...answers, isCorrectAnswer: false };
+      }
+
+      const isValid = validatesTheQuestionText(value, element);
+
+      if (isValid) {
+        answers = { ...answers, text: value };
+      }
+    } else if (isImage) {
+      const isValid = validatesTheImageURL(value, element);
+      if (isValid) {
+        answers = { ...answers, image: value };
+      }
     }
   });
-
-  answersKeys.forEach((item, index) => {
-    answers[item] = answersValues[index];
-  });
-
   return answers;
 }
 
