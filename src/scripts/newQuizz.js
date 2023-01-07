@@ -485,6 +485,53 @@ function clearErrors() {
   errorElements.forEach((element) => element.remove());
 }
 
+function handleLevelsForm(event) {
+  event.preventDefault();
+  clearErrors();
+  const levels = getsLevelsFormData();
+  checksTheLevelFormForErrors(levels);
+}
+
+function getsLevelsFormData() {
+  const allLevels = document.querySelectorAll(".form-box");
+  const levels = [];
+
+  allLevels.forEach((element) => {
+    const level = getLevelsValues(element);
+    levels.push(level);
+  });
+
+  return levels;
+}
+
+function getLevelsValues(element) {
+  const formInputsValues = element.querySelectorAll(".form-input");
+  let level = {};
+
+  formInputsValues.forEach((input) => {
+    const isTitle = input.classList.contains("input-title");
+    const isPercentege = input.classList.contains("input-percentege");
+    const isImage = input.classList.contains("input-image");
+    const isDescription = input.classList.contains("input-description");
+    const { value } = input;
+
+    if (isTitle) {
+      level = { ...level, title: value };
+    }
+    if (isPercentege) {
+      level = { ...level, minValue: value };
+    }
+    if (isImage) {
+      level = { ...level, image: value };
+    }
+    if (isDescription) {
+      level = { ...level, text: value };
+    }
+  });
+
+  return level;
+}
+
 function addKeyDownEvents() {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") handleFormSubmit(event);
