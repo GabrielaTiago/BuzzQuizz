@@ -1,3 +1,5 @@
+let quizz = {};
+
 addKeyDownEvents();
 
 function openNewQuizzPage() {
@@ -76,6 +78,7 @@ function validatesInitialFormData(values) {
     isValidNumberOfQuestions &&
     isValidNumberOfLevels
   ) {
+    quizz = values;
     buildsElementsOfTheQuestionsCriationPage(numberOfQuestions);
   }
 }
@@ -170,13 +173,13 @@ function buildsElementsOfTheQuestionsCriationPage(numberOfQuestions) {
 
   container.innerHTML += questionsContent;
 
-  buildsQuestions(numberOfQuestions);
+  buildsQuestions();
 }
 
-function buildsQuestions(numberOfQuestions) {
+function buildsQuestions() {
   let allQuestions = document.querySelector(".all-questions");
 
-  for (let i = 1; i <= numberOfQuestions; i++) {
+  for (let i = 1; i <= quizz.numberOfQuestions; i++) {
     const questionHTML = `
       <div class="form-box">
         <div class="create-quizz-toggle">
@@ -267,15 +270,16 @@ function editForm(element) {
 function handleQuestionsForm(event) {
   event.preventDefault();
   clearErrors();
-  getsQuestionsFormData();
-  checksTheQuestionFormForErrors();
+  const questions = getsQuestionsFormData();
+  checksTheQuestionFormForErrors(questions);
 }
 
-function checksTheQuestionFormForErrors() {
+function checksTheQuestionFormForErrors(questions) {
   const errors = document.querySelector(".form-box .error-message");
 
   if (errors === null) {
-    console.log("Chama próxima tela");
+    quizz = { ...quizz, questions };
+    buildsElementsOfTheLevelsCriationPage();
   }
 }
 
@@ -414,6 +418,59 @@ function validatesTheQuestionText(text, element) {
     return false;
   }
   return true;
+}
+
+function buildsElementsOfTheLevelsCriationPage() {
+  document.querySelector(".create-quizz-page").remove();
+
+  let container = document.querySelector("main");
+
+  const levelsContent = `
+    <div class="create-quizz-page">
+      <h3 class="create-quizz-title">Agora, decida os níveis!</h3>
+      <form class="create-quizz-form" name="create-quizz-levels" onsubmit="handleLevelsForm(event)">
+        <div class="all-levels"></div>
+        <button type="submit" class="form-button">Finalizar Quizz</button>
+      </form>
+    </div>
+  `;
+
+  container.innerHTML += levelsContent;
+
+  buildsLevels();
+}
+
+function buildsLevels() {
+  let allLevels = document.querySelector(".all-levels");
+
+  for (let i = 1; i <= quizz.numberOfLevels; i++) {
+    const levelHTML = `
+      <div class="form-box">
+        <div class="create-quizz-toggle">
+          <h3 class="create-quizz-title">
+            Nível ${i}
+          </h3>
+          <i class="fa-solid fa-pen-to-square icon" onclick="editForm(this)"></i>
+        </div>
+        <div class="create-quizz-data hidden"> 
+          <div class="input input-title">
+            <input class="form-input input-title" type="text" placeholder="Título do nível"/>
+          </div>
+          <div class="input input-percentage">
+            <input class="form-input input-percentage" type="text" placeholder="% de acerto mínima"/>
+          </div>
+          <div class="input input-image">
+            <input class="form-input input-image" type="text" placeholder="URL da imagem do nível"/>
+          </div>
+          <div class="input input-description">
+            <textarea class="form-input description input-description" type="text" placeholder="Descrição do nível"></textarea>
+          </div>
+        </div>
+      </div>
+    `;
+
+    allLevels.innerHTML += levelHTML;
+  }
 }
 
 function clearErrors() {

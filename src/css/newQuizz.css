@@ -32,7 +32,8 @@
   flex-direction: column;
   text-align: left;
 }
-.form-input {
+.form-input,
+.description {
   width: 100%;
   height: 46px;
   padding: 0px 10px;
@@ -68,7 +69,8 @@
   line-height: 19px;
   margin-bottom: 5px;
 }
-.all-questions {
+.all-questions,
+.all-levels {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -95,6 +97,11 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+.description {
+  min-height: 177px;
+  padding-top: 10px;
+  font-family: "Roboto", sans-serif;
 }
 .hidden {
   display: none;
