@@ -459,7 +459,7 @@ function buildsLevels() {
           <div class="input input-title">
             <input class="form-input input-title" type="text" placeholder="Título do nível"/>
           </div>
-          <div class="input input-percentage">
+          <div class="input percentage">
             <input class="form-input input-percentage" type="number" placeholder="% de acerto mínima"/>
           </div>
           <div class="input input-image">
@@ -480,7 +480,17 @@ function handleLevelsForm(event) {
   event.preventDefault();
   clearErrors();
   const levels = getsLevelsFormData();
+  checksPercentages();
   checksTheLevelFormForErrors(levels);
+}
+
+function checksTheLevelFormForErrors(levels) {
+  const errors = document.querySelector(".error-message");
+
+  if (errors === null) {
+    quizz = { ...quizz, levels };
+    console.log("finaliza a criação do quizz");
+  }
 }
 
 function getsLevelsFormData() {
@@ -493,15 +503,6 @@ function getsLevelsFormData() {
   });
 
   return levels;
-}
-
-function checksTheLevelFormForErrors(levels) {
-  const errors = document.querySelector(".error-message");
-
-  if (errors === null) {
-    quizz = { ...quizz, levels };
-    console.log("finaliza a criação do quizz");
-  }
 }
 
 function getLevelsValues(element) {
@@ -575,6 +576,36 @@ function validatesThePercentage(percentage, element) {
     return false;
   }
   return true;
+}
+
+function checksPercentages() {
+  const allPercentages = document.querySelectorAll(".input-percentage");
+  const percentages = [];
+  const requiredValue = 0;
+
+  allPercentages.forEach((element) => {
+    const { value } = element;
+    const percentage = convertPercentageInStringToNumber(value);
+    percentages.push(percentage);
+  });
+
+  const hasNumberZero = percentages.includes(requiredValue);
+
+  if (!hasNumberZero) {
+    const percentageBoxes = document.querySelectorAll(".percentage");
+
+    percentageBoxes.forEach((box) => {
+      const spanError = `
+        <span class="error-message">Ao menos um dos níveis deve ser igual a zero</span>
+      `;
+
+      box.innerHTML += spanError;
+    });
+  }
+}
+
+function convertPercentageInStringToNumber(number) {
+  return parseFloat(number);
 }
 
 function validatesTheDescriptionText(text, element) {
