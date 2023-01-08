@@ -1,0 +1,134 @@
+@import "home.css";
+
+.create-quizz-page,
+.create-quizz-form,
+.form-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.create-quizz-page {
+  gap: 30px;
+}
+.create-quizz-title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 23px;
+}
+.create-quizz-form {
+  width: 100%;
+  gap: 30px;
+}
+.form-box {
+  width: 100%;
+  padding: 20px 15px;
+  gap: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+  background-color: var(--color-white);
+}
+.input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.form-input,
+.description {
+  width: 100%;
+  height: 46px;
+  padding: 0px 10px;
+  border: 1px solid var(--form-border-color);
+  border-radius: 5px;
+  background-color: var(--color-white);
+  outline: none;
+}
+.form-input::placeholder {
+  color: var(--form-text-color);
+  font-size: 19px;
+  line-height: 22px;
+}
+.form-input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+.form-button,
+.button-user-quizz,
+.button-user-quizz-home {
+  height: 54px;
+  background-color: var(--color-red);
+  border: none;
+  border-radius: 15px;
+  color: var(--color-white);
+  font-size: 18px;
+  line-height: 21.09px;
+  cursor: pointer;
+}
+.form-button:hover {
+  filter: brightness(0.8);
+}
+.input-error {
+  background-color: var(--background-error);
+}
+.error-message {
+  color: var(--color-red);
+  font-size: 16px;
+  line-height: 19px;
+  margin-bottom: 5px;
+}
+.all-questions,
+.all-levels {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.create-quizz-toggle {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.create-quizz-data {
+  width: 100%;
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.icon {
+  font-size: 22px;
+}
+.box-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.description {
+  min-height: 177px;
+  padding-top: 10px;
+  font-family: "Roboto", sans-serif;
+}
+.buttons{
+  width: 220px;
+}
+.button-user-quizz,
+.button-user-quizz-home {
+  width: 100%;
+  height: 44px;
+  margin-bottom: 5%;
+}
+.button-user-quizz-home {
+  background-color: transparent;
+  color: var(--color-text-button);
+}
+.hidden {
+  display: none;
+}
+@media screen and (min-width: 600px) {
+  .create-quizz-page {
+    width: 600px;
+  }
+  .form-button {
+    width: 323px;
+  }
+}
