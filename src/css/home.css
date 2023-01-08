@@ -84,19 +84,29 @@ body {
   border: 1px dashed var(--color-red);
   border-radius: 50px;
 }
-.all-quizzes-container {
+.user-quizzes-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.add-icon {
+  margin-left: 17px;
+  color: var(--color-red);
+}
+.quizzes-container {
   width: 100%;
   padding-bottom: 14px;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
-.all-quizzes-title {
+.quizzes-title {
   font-weight: 700;
   font-size: 20px;
   line-height: 23px;
 }
-.all-quizzes {
+.all-quizzes,
+.all-user-quizzes {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
