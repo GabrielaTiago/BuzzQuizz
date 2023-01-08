@@ -630,16 +630,41 @@ function postQuizzToTheServer() {
   axios
     .post("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes", quizz)
     .then((res) => {
-      const { status, statusText } = res;
+      const { data, status, statusText } = res;
       console.info(
         `%c${status}, ${statusText} - Quiz criado com sucesso`,
         "color: green; font-weight: bold; font-size: 15px; line-height: 25px;"
       );
+      buildsElementsOfTheCreatedQuizzPage(data);
     })
     .catch((err) => {
       console.error(err);
       alert(`Erro ${err.status} - Problema ao criar quiz`);
     });
+}
+
+function buildsElementsOfTheCreatedQuizzPage(data) {
+  document.querySelector(".create-quizz-page").remove();
+
+  const { id, title, image } = data;
+  const container = document.querySelector("main");
+
+  const quizzContent = `
+    <div class="create-quizz-page">
+      <h3 class="create-quizz-title">Seu quizz está pronto!</h3>
+      <div id="${id}" class="quizz">
+        <img class="quizz-img" src="${image}" />
+        <div class="quizz-overlay" onclick="accessQuizz(${id})"></div>
+        <h5 class="quizz-title" onclick="accessQuizz(${id})">${title}</h5>
+      </div>
+      <div class="buttons">
+        <button class="button-user-quizz" onclick="accessQuizz(${id})">Acessar Quizz</button>
+        <button class="button-user-quizz-home" onclick="goToHomePage()">Voltar para home</button>
+      </div>
+    </div>
+  `;
+
+  container.innerHTML += quizzContent;
 }
 
 function clearErrors() {

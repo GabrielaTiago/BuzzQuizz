@@ -50,12 +50,17 @@
 .form-input:focus::-webkit-input-placeholder {
   color: transparent;
 }
-.form-button {
+.form-button,
+.button-user-quizz,
+.button-user-quizz-home {
   height: 54px;
   background-color: var(--color-red);
   border: none;
   border-radius: 15px;
   color: var(--color-white);
+  font-size: 18px;
+  line-height: 21.09px;
+  cursor: pointer;
 }
 .form-button:hover {
   filter: brightness(0.8);
@@ -102,6 +107,19 @@
   min-height: 177px;
   padding-top: 10px;
   font-family: "Roboto", sans-serif;
+}
+.buttons{
+  width: 220px;
+}
+.button-user-quizz,
+.button-user-quizz-home {
+  width: 100%;
+  height: 44px;
+  margin-bottom: 5%;
+}
+.button-user-quizz-home {
+  background-color: transparent;
+  color: var(--color-text-button);
 }
 .hidden {
   display: none;

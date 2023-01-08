@@ -11,6 +11,7 @@
   --home-border-dotted: #d4d4d4;
   --form-text-color: #bababa;
   --form-border-color: #d1d1d1;
+  --color-text-button: #818181;
 }
 body {
   width: 100vw;
