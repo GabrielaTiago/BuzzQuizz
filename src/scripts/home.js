@@ -20,22 +20,6 @@ function checksForUserQuizzes() {
   }
 }
 
-function getsUserQuizzes(userQuizzes) {
-  let userQuizzesContainer = document.querySelector(".all-user-quizzes");
-
-  userQuizzes.forEach((quiz) => {
-    const { id, title, image } = quiz;
-
-    userQuizzesContainer.innerHTML += `
-      <div id="${id}" class="quizz">
-        <img class="quizz-img" src="${image}" />
-        <div class="quizz-overlay"></div>
-        <h5 class="quizz-title">${title}</h5>
-      </div>
-    `;
-  });
-}
-
 function buildsCreateQuizzElement() {
   const createQuizzContainer = `
     <div class="create-quiz-container home-page">
@@ -69,6 +53,26 @@ function buildsAlQuizzesContainerElement() {
   elementConstructor(allQuizzesContainer);
 }
 
+function buildsQuizzElement(quizz, quizzesContainer) {
+  const { id, title, image } = quizz;
+  const quizzHTML = `
+    <div id="${id}" class="quizz">
+      <img class="quizz-img" src="${image}" />
+      <div class="quizz-overlay"></div>
+      <h5 class="quizz-title">${title}</h5>
+    </div>
+  `;
+  quizzesContainer.innerHTML += quizzHTML;
+}
+
+function getsUserQuizzes(userQuizzes) {
+  let userQuizzesContainer = document.querySelector(".all-user-quizzes");
+
+  userQuizzes.forEach((quizz) => {
+    buildsQuizzElement(quizz, userQuizzesContainer);
+  });
+}
+
 function getsAllQuizzes() {
   axios
     .get(BASE_API_URL)
@@ -86,16 +90,8 @@ function getsAllQuizzes() {
 function renderQuizzes(allQuizzes) {
   let quizzesContainer = document.querySelector(".all-quizzes");
 
-  allQuizzes.forEach((quiz) => {
-    const { id, title, image } = quiz;
-
-    quizzesContainer.innerHTML += `
-      <div class="quizz">
-        <img class="quizz-img" src="${image}" />
-        <div class="quizz-overlay"></div>
-        <h5 class="quizz-title">${title}</h5>
-      </div>
-    `;
+  allQuizzes.forEach((quizz) => {
+    buildsQuizzElement(quizz, quizzesContainer);
   });
 }
 
