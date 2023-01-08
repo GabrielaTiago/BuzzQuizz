@@ -58,8 +58,8 @@ function buildsQuizzElement(quizz, quizzesContainer) {
   const quizzHTML = `
     <div id="${id}" class="quizz">
       <img class="quizz-img" src="${image}" />
-      <div class="quizz-overlay"></div>
-      <h5 class="quizz-title">${title}</h5>
+      <div class="quizz-overlay" onclick="accessQuizz(${id})"></div>
+      <h5 class="quizz-title" onclick="accessQuizz(${id})">${title}</h5>
     </div>
   `;
   quizzesContainer.innerHTML += quizzHTML;
