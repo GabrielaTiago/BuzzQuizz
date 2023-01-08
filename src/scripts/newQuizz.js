@@ -635,6 +635,7 @@ function postQuizzToTheServer() {
         `%c${status}, ${statusText} - Quiz criado com sucesso`,
         "color: green; font-weight: bold; font-size: 15px; line-height: 25px;"
       );
+      updateLocalStorage(data);
       buildsElementsOfTheCreatedQuizzPage(data);
     })
     .catch((err) => {
@@ -665,6 +666,12 @@ function buildsElementsOfTheCreatedQuizzPage(data) {
   `;
 
   container.innerHTML += quizzContent;
+}
+
+function updateLocalStorage(data) {
+  const userQuizzes = [];
+  userQuizzes.push(data);
+  localStorage.userQuizzes = JSON.stringify(userQuizzes);
 }
 
 function clearErrors() {
