@@ -488,8 +488,10 @@ function checksTheLevelFormForErrors(levels) {
   const errors = document.querySelector(".error-message");
 
   if (errors === null) {
+    delete quizz.numberOfQuestions;
+    delete quizz.numberOfLevels;
     quizz = { ...quizz, levels };
-    console.log("finaliza a criação do quizz");
+    postQuizzToTheServer();
   }
 }
 
@@ -622,6 +624,22 @@ function validatesTheDescriptionText(text, element) {
     return false;
   }
   return true;
+}
+
+function postQuizzToTheServer() {
+  axios
+    .post("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes", quizz)
+    .then((res) => {
+      const { status, statusText } = res;
+      console.info(
+        `%c${status}, ${statusText} - Quiz criado com sucesso`,
+        "color: green; font-weight: bold; font-size: 15px; line-height: 25px;"
+      );
+    })
+    .catch((err) => {
+      console.error(err);
+      alert(`Erro ${err.status} - Problema ao criar quiz`);
+    });
 }
 
 function clearErrors() {
