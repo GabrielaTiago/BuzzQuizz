@@ -33,7 +33,7 @@ function buildsCreateQuizzElement() {
 function buildsUserQuizzContainerElement() {
   const userQuizzesContainer = `
     <div class="quizzes-container home-page user-quizzes-container">
-      <div class="user-quizzes-title">
+      <div class="quizzes-title-container">
         <h3 class="quizzes-title">Seus Quizzes</h3>
         <i class="fa-solid fa-circle-plus icon add-icon" onclick="openNewQuizzPage()"></i>
       </div>
@@ -46,7 +46,9 @@ function buildsUserQuizzContainerElement() {
 function buildsAlQuizzesContainerElement() {
   const allQuizzesContainer = `
     <div class="quizzes-container home-page">
-      <h3 class="quizzes-title">Todos os Quizzes</h3>
+      <div class="quizzes-title-container">
+        <h3 class="quizzes-title">Todos os Quizzes</h3>
+      </div>
       <div class="all-quizzes"></div>
     </div>
   `;
@@ -96,6 +98,6 @@ function renderQuizzes(allQuizzes) {
 }
 
 function elementConstructor(elementContainer) {
-  const container = document.querySelector("main");
+  const container = document.querySelector(".home-page-container");
   container.innerHTML += elementContainer;
 }
