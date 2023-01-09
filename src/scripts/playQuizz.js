@@ -69,8 +69,10 @@ function buildsQuestion(title, color, answers) {
 }
 
 function buildsAnswersElements(answers) {
-  let questionAnswers = ""
-  answers.forEach((answer) => {
+  const randomAnswers = suffleQuizz(answers);
+  let questionAnswers = "";
+
+  randomAnswers.forEach((answer) => {
     const { text, image, isCorrectAnswer } = answer;
     questionAnswers += buildsAnswerElement(text, image, isCorrectAnswer);
   });
@@ -85,4 +87,9 @@ function buildsAnswerElement(text, image, isCorrectAnswer) {
     </div>
   `;
   return answerHTML;
+}
+
+function suffleQuizz(array) {
+  const suffledArray = array.sort(() => Math.random() - 0.5);
+  return suffledArray;
 }
