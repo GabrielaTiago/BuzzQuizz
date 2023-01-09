@@ -50,20 +50,39 @@ function buildsQuizzBannerElement(title, image) {
 
 function buildsQuestionsElements(questions) {
   questions.forEach((question) => {
-    const { title, color } = question;
-    buildsQuestion(title, color);
+    const { title, color, answers } = question;
+    buildsQuestion(title, color, answers);
   });
 }
 
-function buildsQuestion(title, color) {
+function buildsQuestion(title, color, answers) {
   const container = document.querySelector(".play-quizz-container");
   const questionHTML = `
     <div class="question-box">
       <div class="question-box-title" style="background-color:${color}">
         <h4 class="question-title">${title}</h4>
       </div>
-      <div class="answers-container"></div>
+      <div class="answers-container">${buildsAnswersElements(answers)}</div>
     </div>
   `;
   container.innerHTML += questionHTML;
+}
+
+function buildsAnswersElements(answers) {
+  let questionAnswers = ""
+  answers.forEach((answer) => {
+    const { text, image, isCorrectAnswer } = answer;
+    questionAnswers += buildsAnswerElement(text, image, isCorrectAnswer);
+  });
+  return questionAnswers;
+}
+
+function buildsAnswerElement(text, image, isCorrectAnswer) {
+  const answerHTML = `
+    <div class="answer-box">
+      <img class="answer-image" src="${image}" alt="answer-image" />
+      <h6 class="answer-text">${text}</h6>
+    </div>
+  `;
+  return answerHTML;
 }
