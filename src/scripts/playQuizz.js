@@ -80,8 +80,11 @@ function buildsAnswersElements(answers) {
 }
 
 function buildsAnswerElement(text, image, isCorrectAnswer) {
+  let answerType = "incorrect-answer";
+  if (isCorrectAnswer) answerType = "correct-answer";
+
   const answerHTML = `
-    <div class="answer-box">
+    <div class="answer-box ${answerType}" onclick="selectAnswer(this)">
       <img class="answer-image" src="${image}" alt="answer-image" />
       <h6 class="answer-text">${text}</h6>
     </div>
@@ -92,4 +95,20 @@ function buildsAnswerElement(text, image, isCorrectAnswer) {
 function suffleQuizz(array) {
   const suffledArray = array.sort(() => Math.random() - 0.5);
   return suffledArray;
+}
+
+function selectAnswer(answer) {
+  const answers = answer.parentNode;
+  const answerBox = answers.querySelectorAll(".answer-box");
+
+  answers.classList.add("answered");
+
+  answerBox.forEach((item) => {
+    const correct = item.classList.contains("correct-answer");
+
+    if (item !== answer) item.classList.add("unselected");
+
+    if (correct) item.classList.add("correct");
+    else item.classList.add("incorrect");
+  });
 }
