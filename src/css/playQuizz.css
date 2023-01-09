@@ -1,6 +1,8 @@
 .banner,
 .question-box-title,
-.answers-container {
+.answers-container,
+.level-container,
+.level-box-title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,19 +35,22 @@
   font-size: 19px;
   line-height: 22px;
 }
-.question-box {
+.question-box,
+.level-box {
   width: 100%;
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
   background-color: var(--color-white);
 }
-.question-box-title {
+.question-box-title,
+.level-box-title {
   width: 100%;
   height: 138px;
   margin-bottom: 15px;
   text-align: center;
 }
-.question-title {
+.question-title,
+.level-title {
   color: var(--color-white);
   font-weight: 700;
   font-size: 19px;
@@ -86,14 +91,48 @@
   color: var(--color-error);
 }
 .unselected {
-  opacity: 0.3;
+  opacity: 0.45;
 }
 .answered {
   pointer-events: none;
 }
+.level-container {
+  flex-direction: column;
+  gap: 34px;
+}
+.level-box-title {
+  min-height: 99px;
+  background-color: var(--color-red);
+}
+.level-content {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.level-image {
+  width: 100%;
+  height: 255px;
+}
+.level-text {
+  color: var(--color-text-level);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 25px;
+}
 
 @media screen and (min-width: 760px) {
-  .question-box {
+  .question-box,
+  .level-container {
     width: 760px;
+  }
+  .answer-image {
+    height: 175.2px;
+  }
+  .level-content {
+    flex-direction: row;
+  }
+  .level-image {
+    width: 364px;
+    height: 273px;
   }
 }

@@ -657,8 +657,8 @@ function buildsElementsOfTheCreatedQuizzPage(data) {
         <h5 class="quizz-title" onclick="accessQuizz(${id})">${title}</h5>
       </div>
       <div class="buttons">
-        <button class="button-user-quizz" onclick="accessQuizz(${id})">Acessar Quizz</button>
-        <button class="button-user-quizz-home" onclick="goToHomePage()">Voltar para home</button>
+        <button class="button-quizz" onclick="accessQuizz(${id})">Acessar Quizz</button>
+        <button class="button-quizz-home" onclick="goToHomePage()">Voltar para home</button>
       </div>
     </div>
   `;
