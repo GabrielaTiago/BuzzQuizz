@@ -8,6 +8,7 @@
   align-items: center;
 }
 .create-quizz-page {
+  margin-top: 31px;
   gap: 30px;
 }
 .create-quizz-title {
@@ -20,7 +21,7 @@
   gap: 30px;
 }
 .form-box {
-  width: 100%;
+  width: 100vw;
   padding: 20px 15px;
   gap: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
@@ -125,7 +126,7 @@
   display: none;
 }
 @media screen and (min-width: 600px) {
-  .create-quizz-page {
+  .form-box{
     width: 600px;
   }
   .form-button {

@@ -3,9 +3,7 @@ let quizz = {};
 addKeyDownEvents();
 
 function openNewQuizzPage() {
-  let homePageElements = document.querySelectorAll(".home-page");
-
-  homePageElements.forEach((element) => element.remove());
+  document.querySelector(".home-page-container").remove();
 
   buildsElementsOfTheQuizCreationPage();
 }
