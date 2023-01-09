@@ -18,10 +18,11 @@ function getQuizzData(id) {
 }
 
 function buildsElementsOfThePlayQuizzPage(data) {
-  const { title, image } = data;
+  const { title, image, questions } = data;
 
   buildsQuizzContainerElement();
   buildsQuizzBannerElement(title, image);
+  buildsQuestionsElements(questions);
 }
 
 function buildsQuizzContainerElement() {
@@ -45,4 +46,24 @@ function buildsQuizzBannerElement(title, image) {
     </div>
   `;
   container.innerHTML += bannerHTML;
+}
+
+function buildsQuestionsElements(questions) {
+  questions.forEach((question) => {
+    const { title, color } = question;
+    buildsQuestion(title, color);
+  });
+}
+
+function buildsQuestion(title, color) {
+  const container = document.querySelector(".play-quizz-container");
+  const questionHTML = `
+    <div class="question-box">
+      <div class="question-box-title" style="background-color:${color}">
+        <h4 class="question-title">${title}</h4>
+      </div>
+      <div class="answers-container"></div>
+    </div>
+  `;
+  container.innerHTML += questionHTML;
 }
