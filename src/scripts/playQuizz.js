@@ -1,3 +1,8 @@
+let quizzLevels = [];
+let numberOfQuestions = 0;
+let answeredQuestionsCounter = 0;
+let correctAnswersCounter = 0;
+
 function accessQuizz(id) {
   document.querySelector("main").remove();
   getQuizzData(id);
@@ -18,7 +23,8 @@ function getQuizzData(id) {
 }
 
 function buildsElementsOfThePlayQuizzPage(data) {
-  const { title, image, questions } = data;
+  const { title, image, questions, levels } = data;
+  quizzLevels = levels;
 
   buildsQuizzContainerElement();
   buildsQuizzBannerElement(title, image);
@@ -49,6 +55,7 @@ function buildsQuizzBannerElement(title, image) {
 }
 
 function buildsQuestionsElements(questions) {
+  numberOfQuestions = questions.length;
   questions.forEach((question) => {
     const { title, color, answers } = question;
     buildsQuestion(title, color, answers);
@@ -84,7 +91,7 @@ function buildsAnswerElement(text, image, isCorrectAnswer) {
   if (isCorrectAnswer) answerType = "correct-answer";
 
   const answerHTML = `
-    <div class="answer-box ${answerType}" onclick="selectAnswer(this)">
+    <div class="answer-box ${answerType}" onclick="selectAnswer(this, ${isCorrectAnswer})">
       <img class="answer-image" src="${image}" alt="answer-image" />
       <h6 class="answer-text">${text}</h6>
     </div>
@@ -97,7 +104,10 @@ function suffleQuizz(array) {
   return suffledArray;
 }
 
-function selectAnswer(answer) {
+function selectAnswer(answer, isCorrectAnswer) {
+  answeredQuestionsCounter++;
+  if (isCorrectAnswer) correctAnswersCounter++;
+
   const answers = answer.parentNode;
   const answerBox = answers.querySelectorAll(".answer-box");
 
@@ -111,4 +121,62 @@ function selectAnswer(answer) {
     if (correct) item.classList.add("correct");
     else item.classList.add("incorrect");
   });
+
+  checksTheEndOfTheQuizz();
+}
+
+function checksTheEndOfTheQuizz() {
+  if (answeredQuestionsCounter === numberOfQuestions) {
+    endQuizz();
+  }
+}
+
+function calculatesHitLevel() {
+  const x = correctAnswersCounter * 100;
+  const hitLevel = parseInt(x / numberOfQuestions);
+
+  return hitLevel;
+}
+
+function decreasingOrder() {
+  quizzLevels.sort((a, b) => {
+    return b.minValue - a.minValue;
+  });
+}
+
+function endQuizz() {
+  decreasingOrder();
+  const hitLevel = calculatesHitLevel();
+
+  for (const element of quizzLevels) {
+    const level = element;
+    const { title, image, text, minValue } = level;
+
+    if (minValue <= hitLevel) {
+      buildsQuizzLevelElement(hitLevel, title, image, text);
+      break;
+    }
+  }
+}
+
+function buildsQuizzLevelElement(hitLevel, title, image, text) {
+  const container = document.querySelector(".play-quizz-container");
+  const levelHTML = `
+    <div class="level-container">
+      <div class="level-box">
+        <div class="level-box-title">
+          <h4 class="level-title">${hitLevel}% de acerto: ${title}</h4>
+        </div>
+        <div class="level-content">
+          <img class="level-image" src="${image}" alt="level-image" />
+          <p class="level-text">${text}</p>
+        </div>
+      </div>
+      <div class="buttons">
+        <button class="button-quizz">Reiniciar Quizz</button>
+        <button class="button-quizz-home">Voltar pra home</button>
+      </div>
+    </div>
+  `;
+  container.innerHTML += levelHTML;
 }
