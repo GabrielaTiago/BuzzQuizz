@@ -1,5 +1,3 @@
-@import "home.css";
-
 .create-quizz-page,
 .create-quizz-form,
 .form-box {
@@ -8,6 +6,7 @@
   align-items: center;
 }
 .create-quizz-page {
+  margin-top: 31px;
   gap: 30px;
 }
 .create-quizz-title {
@@ -20,7 +19,7 @@
   gap: 30px;
 }
 .form-box {
-  width: 100%;
+  width: 100vw;
   padding: 20px 15px;
   gap: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
@@ -51,8 +50,8 @@
   color: transparent;
 }
 .form-button,
-.button-user-quizz,
-.button-user-quizz-home {
+.button-quizz,
+.button-quizz-home {
   height: 54px;
   background-color: var(--color-red);
   border: none;
@@ -111,13 +110,13 @@
 .buttons{
   width: 220px;
 }
-.button-user-quizz,
-.button-user-quizz-home {
+.button-quizz,
+.button-quizz-home {
   width: 100%;
   height: 44px;
   margin-bottom: 5%;
 }
-.button-user-quizz-home {
+.button-quizz-home {
   background-color: transparent;
   color: var(--color-text-button);
 }
@@ -125,7 +124,7 @@
   display: none;
 }
 @media screen and (min-width: 600px) {
-  .create-quizz-page {
+  .form-box{
     width: 600px;
   }
   .form-button {

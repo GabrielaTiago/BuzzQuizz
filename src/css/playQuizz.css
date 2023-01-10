@@ -1,0 +1,138 @@
+.banner,
+.question-box-title,
+.answers-container,
+.level-container,
+.level-box-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.play-quizz-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+.banner {
+  width: 100%;
+  height: 142px;
+  position: relative;
+  text-align: center;
+}
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.57), rgba(0, 0, 0, 0.57));
+}
+.banner-title {
+  position: absolute;
+  color: var(--color-white);
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 22px;
+}
+.question-box,
+.level-box {
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+  background-color: var(--color-white);
+}
+.question-box-title,
+.level-box-title {
+  width: 100%;
+  height: 138px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.question-title,
+.level-title {
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 22px;
+}
+.answers-container {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 5px;
+}
+.answer-box {
+  width: calc(50% - 20px);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+.answer-image {
+  width: 100%;
+  height: 115px;
+  object-fit: cover;
+}
+.answer-image:hover {
+  filter: brightness(0.8);
+}
+.answer-text {
+  height: 22px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 15px;
+}
+.correct {
+  color: var(--color-hit);
+}
+.incorrect {
+  color: var(--color-error);
+}
+.unselected {
+  opacity: 0.45;
+}
+.answered {
+  pointer-events: none;
+}
+.level-container {
+  flex-direction: column;
+  gap: 34px;
+}
+.level-box-title {
+  min-height: 99px;
+  background-color: var(--color-red);
+}
+.level-content {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.level-image {
+  width: 100%;
+  height: 255px;
+}
+.level-text {
+  color: var(--color-text-level);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 25px;
+}
+
+@media screen and (min-width: 760px) {
+  .question-box,
+  .level-container {
+    width: 760px;
+  }
+  .answer-image {
+    height: 175.2px;
+  }
+  .level-content {
+    flex-direction: row;
+  }
+  .level-image {
+    width: 364px;
+    height: 273px;
+  }
+}

@@ -3,9 +3,7 @@ let quizz = {};
 addKeyDownEvents();
 
 function openNewQuizzPage() {
-  let homePageElements = document.querySelectorAll(".home-page");
-
-  homePageElements.forEach((element) => element.remove());
+  document.querySelector(".home-page-container").remove();
 
   buildsElementsOfTheQuizCreationPage();
 }
@@ -659,8 +657,8 @@ function buildsElementsOfTheCreatedQuizzPage(data) {
         <h5 class="quizz-title" onclick="accessQuizz(${id})">${title}</h5>
       </div>
       <div class="buttons">
-        <button class="button-user-quizz" onclick="accessQuizz(${id})">Acessar Quizz</button>
-        <button class="button-user-quizz-home" onclick="goToHomePage()">Voltar para home</button>
+        <button class="button-quizz" onclick="accessQuizz(${id})">Acessar Quizz</button>
+        <button class="button-quizz-home" onclick="goToHomePage()">Voltar para home</button>
       </div>
     </div>
   `;
