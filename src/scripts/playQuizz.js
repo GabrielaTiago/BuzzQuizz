@@ -1,3 +1,4 @@
+let quizzId = 0;
 let quizzLevels = [];
 let numberOfQuestions = 0;
 let answeredQuestionsCounter = 0;
@@ -23,7 +24,8 @@ function getQuizzData(id) {
 }
 
 function buildsElementsOfThePlayQuizzPage(data) {
-  const { title, image, questions, levels } = data;
+  const { id, title, image, questions, levels } = data;
+  quizzId = id;
   quizzLevels = levels;
 
   buildsQuizzContainerElement();
@@ -195,8 +197,8 @@ function buildsQuizzLevelElement(hitLevel, title, image, text) {
         </div>
       </div>
       <div class="buttons">
-        <button class="button-quizz">Reiniciar Quizz</button>
-        <button class="button-quizz-home">Voltar pra home</button>
+        <button class="button-quizz" onclick="restartQuizz()">Reiniciar Quizz</button>
+        <button class="button-quizz-home" onclick="goToHomePage()">Voltar pra home</button>
       </div>
     </div>
   `;
@@ -209,4 +211,8 @@ function scrollToTheNextElement(element) {
     element.scrollIntoView({ behavior: "smooth" });
   }
   setTimeout(scroll, TWO_SECONDS);
+}
+
+function restartQuizz() {
+  accessQuizz(quizzId);
 }
