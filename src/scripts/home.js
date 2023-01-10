@@ -55,16 +55,27 @@ function buildsAlQuizzesContainerElement() {
   elementConstructor(allQuizzesContainer);
 }
 
-function buildsQuizzElement(quizz, quizzesContainer) {
+function buildsQuizzElement(quizz, quizzesContainer, userKey) {
   const { id, title, image } = quizz;
   const quizzHTML = `
     <div id="${id}" class="quizz">
+      ${buildsEditAndDeleteElements(id, userKey)}
       <img class="quizz-img" src="${image}" />
       <div class="quizz-overlay" onclick="accessQuizz(${id})"></div>
       <h5 class="quizz-title" onclick="accessQuizz(${id})">${title}</h5>
     </div>
   `;
   quizzesContainer.innerHTML += quizzHTML;
+}
+
+function buildsEditAndDeleteElements(id, userKey) {
+  const editAndDeleteHTML = `
+    <div class="edit-delete-container">
+      <i class="fa-regular fa-pen-to-square icon edit"></i>
+      <i class="fa-regular fa-trash-can icon delete" onclick="deleteQuizz(${id}, ${userKey})"></i>
+    </div>
+  `;
+  return editAndDeleteHTML;
 }
 
 function getsUserQuizzes(userQuizzes) {
@@ -86,6 +97,30 @@ function getsAllQuizzes() {
       console.error(err);
       alert(`Erro ${err.status} - Problema ao carregar quizzes`);
       window.location.reload();
+    });
+}
+
+function deleteQuizz(id, key) {
+  const userDecision = confirm("Realmente deseja deletar este quiz?");
+  const requestURL = `${BASE_API_URL}/${id}`;
+  const requestHeaders = { headers: { "Secret-key": key } };
+
+  if (!userDecision) {
+    return;
+  }
+
+  axios
+    .delete(requestURL, requestHeaders)
+    .then((res) => {
+      const { status, statusText } = res;
+      console.info(
+        `%c${status}, ${statusText} - Quiz deletado com sucesso`,
+        "color: red; font-weight: bold; font-size: 15px; line-height: 25px;"
+      );
+    })
+    .catch((err) => {
+      console.error(err);
+      alert(`Err ${err.message} - Problema ao deletar quiz`);
     });
 }
 
