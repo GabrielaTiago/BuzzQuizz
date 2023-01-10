@@ -56,42 +56,53 @@ function buildsQuizzBannerElement(title, image) {
 
 function buildsQuestionsElements(questions) {
   numberOfQuestions = questions.length;
-  questions.forEach((question) => {
+  questions.forEach((question, index) => {
     const { title, color, answers } = question;
-    buildsQuestion(title, color, answers);
+    buildsQuestion(index, title, color, answers);
   });
 }
 
-function buildsQuestion(title, color, answers) {
+function buildsQuestion(questionIndex, title, color, answers) {
   const container = document.querySelector(".play-quizz-container");
   const questionHTML = `
-    <div class="question-box">
+    <div class="question-box question-${questionIndex}">
       <div class="question-box-title" style="background-color:${color}">
         <h4 class="question-title">${title}</h4>
       </div>
-      <div class="answers-container">${buildsAnswersElements(answers)}</div>
+      <div class="answers-container">${buildsAnswersElements(
+        answers,
+        questionIndex
+      )}</div>
     </div>
   `;
   container.innerHTML += questionHTML;
 }
 
-function buildsAnswersElements(answers) {
+function buildsAnswersElements(answers, questionIndex) {
   const randomAnswers = suffleQuizz(answers);
   let questionAnswers = "";
 
   randomAnswers.forEach((answer) => {
     const { text, image, isCorrectAnswer } = answer;
-    questionAnswers += buildsAnswerElement(text, image, isCorrectAnswer);
+    questionAnswers += buildsAnswerElement(
+      text,
+      image,
+      isCorrectAnswer,
+      questionIndex
+    );
   });
   return questionAnswers;
 }
 
-function buildsAnswerElement(text, image, isCorrectAnswer) {
+function buildsAnswerElement(text, image, isCorrectAnswer, questionIndex) {
   let answerType = "incorrect-answer";
   if (isCorrectAnswer) answerType = "correct-answer";
 
   const answerHTML = `
-    <div class="answer-box ${answerType}" onclick="selectAnswer(this, ${isCorrectAnswer})">
+    <div
+      class="answer-box ${answerType}"
+      onclick="selectAnswer(this, ${isCorrectAnswer}, ${questionIndex})"
+    >
       <img class="answer-image" src="${image}" alt="answer-image" />
       <h6 class="answer-text">${text}</h6>
     </div>
@@ -104,7 +115,7 @@ function suffleQuizz(array) {
   return suffledArray;
 }
 
-function selectAnswer(answer, isCorrectAnswer) {
+function selectAnswer(answer, isCorrectAnswer, questionIndex) {
   answeredQuestionsCounter++;
   if (isCorrectAnswer) correctAnswersCounter++;
 
@@ -122,12 +133,23 @@ function selectAnswer(answer, isCorrectAnswer) {
     else item.classList.add("incorrect");
   });
 
-  checksTheEndOfTheQuizz();
+  checksTheEndOfTheQuizz(questionIndex);
 }
 
-function checksTheEndOfTheQuizz() {
-  if (answeredQuestionsCounter === numberOfQuestions) {
+function checksTheEndOfTheQuizz(questionIndex) {
+  const lastQuestion = numberOfQuestions - 1;
+
+  if (answeredQuestionsCounter !== numberOfQuestions) {
+    if (questionIndex !== lastQuestion) {
+      const nextQuestion = document.querySelector(
+        `.question-${questionIndex + 1}`
+      );
+      scrollToTheNextElement(nextQuestion);
+    }
+  } else {
     endQuizz();
+    const level = document.querySelector(".level-container");
+    scrollToTheNextElement(level);
   }
 }
 
@@ -179,4 +201,12 @@ function buildsQuizzLevelElement(hitLevel, title, image, text) {
     </div>
   `;
   container.innerHTML += levelHTML;
+}
+
+function scrollToTheNextElement(element) {
+  const TWO_SECONDS = 2000;
+  function scroll() {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+  setTimeout(scroll, TWO_SECONDS);
 }
