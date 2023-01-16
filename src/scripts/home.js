@@ -8,9 +8,15 @@ function goToHomePage() {
   window.location.reload();
 }
 
-function checksForUserQuizzes() {
+function getPersistedQuizzesFromLocalStorage() {
   const userQuizzes = localStorage.getItem("userQuizzes");
   const exitUserQuizzes = JSON.parse(userQuizzes);
+
+  return exitUserQuizzes;
+}
+
+function checksForUserQuizzes() {
+  const exitUserQuizzes = getPersistedQuizzesFromLocalStorage();
 
   if (exitUserQuizzes) {
     getsUserQuizzes(exitUserQuizzes);
@@ -68,8 +74,6 @@ function buildsQuizzElement(quizz, quizzesContainer, userKey) {
 }
 
 function getsUserQuizzes(userQuizzes) {
-  const quizzes = [];
-
   userQuizzes.forEach((quizz) => {
     const { id, key } = quizz;
 
@@ -77,8 +81,7 @@ function getsUserQuizzes(userQuizzes) {
       .get(`${BASE_API_URL}/${id}`)
       .then((res) => {
         const { data } = res;
-        quizzes.push({ ...data, key });
-        renderUserQuizzes(quizzes);
+        renderUserQuizzes([{ ...data, key }]);
       })
       .catch((err) => {
         console.error(err);

@@ -668,8 +668,14 @@ function buildsElementsOfTheCreatedQuizzPage(data) {
 }
 
 function persistQuizzToLocalStorage(data) {
-  const userQuizzes = [];
+  const exitUserQuizzes = getPersistedQuizzesFromLocalStorage();
+  let userQuizzes = [];
   const { id, key } = data;
+
+  if(exitUserQuizzes) {
+    userQuizzes = exitUserQuizzes;
+  }
+  
   userQuizzes.push({ id, key });
   localStorage.userQuizzes = JSON.stringify(userQuizzes);
 }
