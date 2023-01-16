@@ -13,8 +13,8 @@ function checksForUserQuizzes() {
   const exitUserQuizzes = JSON.parse(userQuizzes);
 
   if (exitUserQuizzes) {
-    buildsUserQuizzContainerElement();
     getsUserQuizzes(exitUserQuizzes);
+    buildsUserQuizzContainerElement();
   } else {
     buildsCreateQuizzElement();
   }
@@ -55,7 +55,7 @@ function buildsAlQuizzesContainerElement() {
   elementConstructor(allQuizzesContainer);
 }
 
-function buildsQuizzElement(quizz, quizzesContainer) {
+function buildsQuizzElement(quizz, quizzesContainer, userKey) {
   const { id, title, image } = quizz;
   const quizzHTML = `
     <div id="${id}" class="quizz">
@@ -68,10 +68,23 @@ function buildsQuizzElement(quizz, quizzesContainer) {
 }
 
 function getsUserQuizzes(userQuizzes) {
-  let userQuizzesContainer = document.querySelector(".all-user-quizzes");
+  const quizzes = [];
 
   userQuizzes.forEach((quizz) => {
-    buildsQuizzElement(quizz, userQuizzesContainer);
+    const { id, key } = quizz;
+
+    axios
+      .get(`${BASE_API_URL}/${id}`)
+      .then((res) => {
+        const { data } = res;
+        quizzes.push({ ...data, key });
+        renderUserQuizzes(quizzes);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert(`Erro ${err.status} - Problema ao carregar seus quizzes`);
+        window.location.reload();
+      });
   });
 }
 
@@ -94,6 +107,14 @@ function renderQuizzes(allQuizzes) {
 
   allQuizzes.forEach((quizz) => {
     buildsQuizzElement(quizz, quizzesContainer);
+  });
+}
+
+function renderUserQuizzes(userQuizzes) {
+  let userQuizzesContainer = document.querySelector(".all-user-quizzes");
+
+  userQuizzes.forEach((quizz) => {
+    buildsQuizzElement(quizz, userQuizzesContainer, quizz.key);
   });
 }
 
