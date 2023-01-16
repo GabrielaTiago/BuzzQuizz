@@ -8,13 +8,19 @@ function goToHomePage() {
   window.location.reload();
 }
 
-function checksForUserQuizzes() {
+function getPersistedQuizzesFromLocalStorage() {
   const userQuizzes = localStorage.getItem("userQuizzes");
   const exitUserQuizzes = JSON.parse(userQuizzes);
 
+  return exitUserQuizzes;
+}
+
+function checksForUserQuizzes() {
+  const exitUserQuizzes = getPersistedQuizzesFromLocalStorage();
+
   if (exitUserQuizzes) {
-    buildsUserQuizzContainerElement();
     getsUserQuizzes(exitUserQuizzes);
+    buildsUserQuizzContainerElement();
   } else {
     buildsCreateQuizzElement();
   }
@@ -79,10 +85,20 @@ function buildsEditAndDeleteElements(id, userKey) {
 }
 
 function getsUserQuizzes(userQuizzes) {
-  let userQuizzesContainer = document.querySelector(".all-user-quizzes");
-
   userQuizzes.forEach((quizz) => {
-    buildsQuizzElement(quizz, userQuizzesContainer);
+    const { id, key } = quizz;
+
+    axios
+      .get(`${BASE_API_URL}/${id}`)
+      .then((res) => {
+        const { data } = res;
+        renderUserQuizzes([{ ...data, key }]);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert(`Erro ${err.status} - Problema ao carregar seus quizzes`);
+        window.location.reload();
+      });
   });
 }
 
@@ -129,6 +145,14 @@ function renderQuizzes(allQuizzes) {
 
   allQuizzes.forEach((quizz) => {
     buildsQuizzElement(quizz, quizzesContainer);
+  });
+}
+
+function renderUserQuizzes(userQuizzes) {
+  let userQuizzesContainer = document.querySelector(".all-user-quizzes");
+
+  userQuizzes.forEach((quizz) => {
+    buildsQuizzElement(quizz, userQuizzesContainer, quizz.key);
   });
 }
 
