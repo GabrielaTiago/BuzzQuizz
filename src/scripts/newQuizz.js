@@ -628,12 +628,13 @@ function postQuizzToTheServer() {
   axios
     .post("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes", quizz)
     .then((res) => {
+      console.log(res);
       const { data, status, statusText } = res;
       console.info(
         `%c${status}, ${statusText} - Quiz criado com sucesso`,
         "color: green; font-weight: bold; font-size: 15px; line-height: 25px;"
       );
-      updateLocalStorage(data);
+      persistQuizzToLocalStorage(data);
       buildsElementsOfTheCreatedQuizzPage(data);
     })
     .catch((err) => {
@@ -666,9 +667,16 @@ function buildsElementsOfTheCreatedQuizzPage(data) {
   container.innerHTML += quizzContent;
 }
 
-function updateLocalStorage(data) {
-  const userQuizzes = [];
-  userQuizzes.push(data);
+function persistQuizzToLocalStorage(data) {
+  const exitUserQuizzes = getPersistedQuizzesFromLocalStorage();
+  let userQuizzes = [];
+  const { id, key } = data;
+
+  if(exitUserQuizzes) {
+    userQuizzes = exitUserQuizzes;
+  }
+  
+  userQuizzes.push({ id, key });
   localStorage.userQuizzes = JSON.stringify(userQuizzes);
 }
 
