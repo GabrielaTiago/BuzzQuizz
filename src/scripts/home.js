@@ -61,11 +61,10 @@ function buildsAlQuizzesContainerElement() {
   elementConstructor(allQuizzesContainer);
 }
 
-function buildsQuizzElement(quizz, quizzesContainer, userKey) {
+function buildsQuizzElement(quizz, quizzesContainer) {
   const { id, title, image } = quizz;
   const quizzHTML = `
     <div id="${id}" class="quizz">
-      ${buildsEditAndDeleteElements(id, userKey)}
       <img class="quizz-img" src="${image}" />
       <div class="quizz-overlay" onclick="accessQuizz(${id})"></div>
       <h5 class="quizz-title" onclick="accessQuizz(${id})">${title}</h5>
@@ -74,14 +73,20 @@ function buildsQuizzElement(quizz, quizzesContainer, userKey) {
   quizzesContainer.innerHTML += quizzHTML;
 }
 
-function buildsEditAndDeleteElements(id, userKey) {
-  const editAndDeleteHTML = `
-    <div class="edit-delete-container">
-      <i class="fa-regular fa-pen-to-square icon edit"></i>
-      <i class="fa-regular fa-trash-can icon delete" onclick="deleteQuizz(${id}, ${userKey})"></i>
+function buildsUserQuizzesElements(quizz, quizzesContainer) {
+  const { id, title, image, key } = quizz;
+  const quizzHTML = `
+    <div id="${id}" class="quizz">
+      <div class="edit-delete-container">
+        <i class="fa-regular fa-pen-to-square icon edit"></i>
+        <i class="fa-regular fa-trash-can icon delete" onclick="deleteQuizz(${id}, '${key}')"></i>
+      </div>
+      <img class="quizz-img" src="${image}" />
+      <div class="quizz-overlay" onclick="accessQuizz(${id})"></div>
+      <h5 class="quizz-title" onclick="accessQuizz(${id})">${title}</h5>
     </div>
   `;
-  return editAndDeleteHTML;
+  quizzesContainer.innerHTML += quizzHTML;
 }
 
 function getsUserQuizzes(userQuizzes) {
@@ -116,10 +121,26 @@ function getsAllQuizzes() {
     });
 }
 
+function renderQuizzes(allQuizzes) {
+  let quizzesContainer = document.querySelector(".all-quizzes");
+
+  allQuizzes.forEach((quizz) => {
+    buildsQuizzElement(quizz, quizzesContainer);
+  });
+}
+
+function renderUserQuizzes(userQuizzes) {
+  let userQuizzesContainer = document.querySelector(".all-user-quizzes");
+
+  userQuizzes.forEach((quizz) => {
+    buildsUserQuizzesElements(quizz, userQuizzesContainer);
+  });
+}
+
 function deleteQuizz(id, key) {
   const userDecision = confirm("Realmente deseja deletar este quiz?");
   const requestURL = `${BASE_API_URL}/${id}`;
-  const requestHeaders = { headers: { "Secret-key": key } };
+  const requestHeaders = { headers: { "Secret-Key": key } };
 
   if (!userDecision) {
     return;
@@ -138,22 +159,6 @@ function deleteQuizz(id, key) {
       console.error(err);
       alert(`Err ${err.message} - Problema ao deletar quiz`);
     });
-}
-
-function renderQuizzes(allQuizzes) {
-  let quizzesContainer = document.querySelector(".all-quizzes");
-
-  allQuizzes.forEach((quizz) => {
-    buildsQuizzElement(quizz, quizzesContainer);
-  });
-}
-
-function renderUserQuizzes(userQuizzes) {
-  let userQuizzesContainer = document.querySelector(".all-user-quizzes");
-
-  userQuizzes.forEach((quizz) => {
-    buildsQuizzElement(quizz, userQuizzesContainer, quizz.key);
-  });
 }
 
 function elementConstructor(elementContainer) {
