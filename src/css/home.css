@@ -37,7 +37,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 2;
   background-color: var(--color-red);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -162,7 +162,21 @@ body {
   font-size: 19px;
   line-height: 22px;
 }
-
+.edit-delete-container {
+  margin-top: 5%;
+  padding: 4%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  border-radius: 11px 0px 0px 11px;
+  background-color: var(--color-red);
+  color: var(--color-white);
+}
 @media screen and (min-width: 1051px) {
   .home-page-container {
     width: 1051px;

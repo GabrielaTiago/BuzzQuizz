@@ -1,5 +1,3 @@
-let quizz = {};
-
 addKeyDownEvents();
 
 function openNewQuizzPage() {
@@ -93,7 +91,7 @@ function validatesInitialFormData(quizzData) {
   const errors = document.querySelector(".form-box .error-message");
 
   if (errors === null) {
-    quizz = quizzData;
+    QUIZZ = quizzData;
     buildsElementsOfTheQuestionsCriationPage();
   }
 }
@@ -181,12 +179,13 @@ function buildsElementsOfTheQuestionsCriationPage() {
   container.innerHTML += questionsContent;
 
   buildsQuestions();
+  updateQuestionsInputs();
 }
 
 function buildsQuestions() {
   let allQuestions = document.querySelector(".all-questions");
 
-  for (let i = 1; i <= quizz.numberOfQuestions; i++) {
+  for (let i = 1; i <= QUIZZ.numberOfQuestions; i++) {
     const questionHTML = `
       <div class="form-box">
         <div class="create-quizz-toggle">
@@ -285,7 +284,7 @@ function checksTheQuestionFormForErrors(questions) {
   const errors = document.querySelector(".form-box .error-message");
 
   if (errors === null) {
-    quizz = { ...quizz, questions };
+    QUIZZ = { ...QUIZZ, questions };
     buildsElementsOfTheLevelsCriationPage();
   }
 }
@@ -439,12 +438,13 @@ function buildsElementsOfTheLevelsCriationPage() {
   container.innerHTML += levelsContent;
 
   buildsLevels();
+  updateLevelData();
 }
 
 function buildsLevels() {
   let allLevels = document.querySelector(".all-levels");
 
-  for (let i = 1; i <= quizz.numberOfLevels; i++) {
+  for (let i = 1; i <= QUIZZ.numberOfLevels; i++) {
     const levelHTML = `
       <div class="form-box">
         <div class="create-quizz-toggle">
@@ -486,10 +486,15 @@ function checksTheLevelFormForErrors(levels) {
   const errors = document.querySelector(".error-message");
 
   if (errors === null) {
-    delete quizz.numberOfQuestions;
-    delete quizz.numberOfLevels;
-    quizz = { ...quizz, levels };
-    postQuizzToTheServer();
+    delete QUIZZ.numberOfQuestions;
+    delete QUIZZ.numberOfLevels;
+    QUIZZ = { ...QUIZZ, levels };
+
+    if (UPDATE_QUIZZ === null) {
+      postQuizzToTheServer();
+    } else {
+      updateQuizz();
+    }
   }
 }
 
@@ -626,9 +631,8 @@ function validatesTheDescriptionText(text, element) {
 
 function postQuizzToTheServer() {
   axios
-    .post("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes", quizz)
+    .post("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes", QUIZZ)
     .then((res) => {
-      console.log(res);
       const { data, status, statusText } = res;
       console.info(
         `%c${status}, ${statusText} - Quiz criado com sucesso`,
@@ -672,10 +676,10 @@ function persistQuizzToLocalStorage(data) {
   let userQuizzes = [];
   const { id, key } = data;
 
-  if(exitUserQuizzes) {
+  if (exitUserQuizzes) {
     userQuizzes = exitUserQuizzes;
   }
-  
+
   userQuizzes.push({ id, key });
   localStorage.userQuizzes = JSON.stringify(userQuizzes);
 }
