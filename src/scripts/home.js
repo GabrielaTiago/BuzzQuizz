@@ -78,7 +78,7 @@ function buildsUserQuizzesElements(quizz, quizzesContainer) {
   const quizzHTML = `
     <div id="${id}" class="quizz">
       <div class="edit-delete-container">
-        <i class="fa-regular fa-pen-to-square icon edit"></i>
+        <i class="fa-regular fa-pen-to-square icon edit" onclick="updateQuizz(${id}, '${key}')"></i>
         <i class="fa-regular fa-trash-can icon delete" onclick="deleteQuizz(${id}, '${key}')"></i>
       </div>
       <img class="quizz-img" src="${image}" />
@@ -167,9 +167,57 @@ function deleteFromLocalStorage(id) {
   const allUserQuizzes = getPersistedQuizzesFromLocalStorage();
   let remainingQuizzes = allUserQuizzes.filter((quizz) => quizz.id !== id);
 
-  if(remainingQuizzes.length === 0) remainingQuizzes = null;
+  if (remainingQuizzes.length === 0) remainingQuizzes = null;
 
   localStorage.userQuizzes = JSON.stringify(remainingQuizzes);
+}
+
+function updateQuizz(id, key) {
+  openNewQuizzPage();
+  getTheQuizzDataToBeUpdated(id);
+}
+
+function getTheQuizzDataToBeUpdated(id) {
+  let quizz = {};
+
+  axios
+    .get(`${BASE_API_URL}/${id}`)
+    .then((res) => {
+      quizz = res.data;
+      updateInitalsInputs(quizz);
+    })
+    .catch((err) => {
+      console.error(err);
+      alert(`Erro ${err.status} - Problema ao buscar quiz`);
+    });
+}
+
+function updateInitalsInputs(quizz) {
+  const { title, image, questions, levels } = quizz;
+  const numberOfQuestions = questions.length;
+  const numberOfLevels = levels.length;
+
+  const allInputs = document.querySelectorAll(".form-input");
+
+  allInputs.forEach((element) => {
+    const isTitle = element.classList.contains("input-title");
+    const isImage = element.classList.contains("input-image");
+    const isNumbOfQuestions = element.classList.contains("input-question");
+    const isNumbOfLevels = element.classList.contains("input-level");
+
+    if (isTitle) {
+      element.value = title;
+    }
+    if (isImage) {
+      element.value = image;
+    }
+    if (isNumbOfQuestions) {
+      element.value = numberOfQuestions;
+    }
+    if (isNumbOfLevels) {
+      element.value = numberOfLevels;
+    }
+  });
 }
 
 function elementConstructor(elementContainer) {
