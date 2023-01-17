@@ -150,15 +150,26 @@ function deleteQuizz(id, key) {
     .delete(requestURL, requestHeaders)
     .then((res) => {
       const { status, statusText } = res;
+      deleteFromLocalStorage(id);
       console.info(
         `%c${status}, ${statusText} - Quiz deletado com sucesso`,
         "color: red; font-weight: bold; font-size: 15px; line-height: 25px;"
       );
+      window.location.reload();
     })
     .catch((err) => {
       console.error(err);
       alert(`Err ${err.message} - Problema ao deletar quiz`);
     });
+}
+
+function deleteFromLocalStorage(id) {
+  const allUserQuizzes = getPersistedQuizzesFromLocalStorage();
+  let remainingQuizzes = allUserQuizzes.filter((quizz) => quizz.id !== id);
+
+  if(remainingQuizzes.length === 0) remainingQuizzes = null;
+
+  localStorage.userQuizzes = JSON.stringify(remainingQuizzes);
 }
 
 function elementConstructor(elementContainer) {
