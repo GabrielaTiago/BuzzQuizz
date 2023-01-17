@@ -440,6 +440,7 @@ function buildsElementsOfTheLevelsCriationPage() {
   container.innerHTML += levelsContent;
 
   buildsLevels();
+  updateLevelData();
 }
 
 function buildsLevels() {

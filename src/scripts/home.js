@@ -277,6 +277,45 @@ function updateAnswersInputs(element, answers) {
   });
 }
 
+function updateLevelData() {
+  const { levels } = UPDATE_QUIZZ;
+
+  levels.forEach((level, levelIndex) => {
+    const allLevels = document.querySelectorAll(".form-box");
+
+    allLevels.forEach((element, elementIndex) => {
+      if (levelIndex === elementIndex) {
+        updateLevelsInputs(element, level);
+      }
+    });
+  });
+}
+
+function updateLevelsInputs(element, level) {
+  const { title, image, text, minValue } = level;
+  const allInputs = element.querySelectorAll(".form-input");
+
+  allInputs.forEach((input) => {
+    const isTitle = input.classList.contains("input-title");
+    const isPercentage = input.classList.contains("input-percentage");
+    const isImage = input.classList.contains("input-image");
+    const isDescription = input.classList.contains("input-description");
+
+    if (isTitle) {
+      input.value = title;
+    }
+    if (isPercentage) {
+      input.value = minValue;
+    }
+    if (isImage) {
+      input.value = image;
+    }
+    if (isDescription) {
+      input.value = text;
+    }
+  });
+}
+
 function elementConstructor(elementContainer) {
   const container = document.querySelector(".home-page-container");
   container.innerHTML += elementContainer;
