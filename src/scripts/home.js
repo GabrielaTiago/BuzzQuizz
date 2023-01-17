@@ -1,5 +1,8 @@
 const BASE_API_URL = "https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes";
-let UPDATE_QUIZZ = {};
+let QUIZZ = {};
+let UPDATE_QUIZZ = null;
+let UPDATE_ID = 0;
+let UPDATE_KEY = "";
 
 checksForUserQuizzes();
 buildsAlQuizzesContainerElement();
@@ -79,7 +82,7 @@ function buildsUserQuizzesElements(quizz, quizzesContainer) {
   const quizzHTML = `
     <div id="${id}" class="quizz">
       <div class="edit-delete-container">
-        <i class="fa-regular fa-pen-to-square icon edit" onclick="updateQuizz(${id}, '${key}')"></i>
+        <i class="fa-regular fa-pen-to-square icon edit" onclick="updateQuizzData(${id}, '${key}')"></i>
         <i class="fa-regular fa-trash-can icon delete" onclick="deleteQuizz(${id}, '${key}')"></i>
       </div>
       <img class="quizz-img" src="${image}" />
@@ -173,9 +176,11 @@ function deleteFromLocalStorage(id) {
   localStorage.userQuizzes = JSON.stringify(remainingQuizzes);
 }
 
-function updateQuizz(id, key) {
+function updateQuizzData(id, key) {
   openNewQuizzPage();
   getTheQuizzDataToBeUpdated(id);
+  UPDATE_ID = id
+  UPDATE_KEY = key;
 }
 
 function getTheQuizzDataToBeUpdated(id) {
@@ -314,6 +319,27 @@ function updateLevelsInputs(element, level) {
       input.value = text;
     }
   });
+}
+
+function updateQuizz() {
+  const requestURL = `${BASE_API_URL}/${UPDATE_ID}`;
+  const requestBody = QUIZZ;
+  const requestHeaders = { headers: { "Secret-Key": UPDATE_KEY } };
+
+  axios
+    .put(requestURL, requestBody, requestHeaders)
+    .then((res) => {
+      const { status, statusText } = res;
+      console.info(
+        `%c${status}, ${statusText} - Quiz atualizado com sucesso`,
+        "color: blue; font-weight: bold; font-size: 15px; line-height: 25px;"
+      );
+      goToHomePage();
+    })
+    .catch((err) => {
+      console.error(err);
+      alert(`Erro ${err.status} - Problema ao atualizar o quiz`);
+    });
 }
 
 function elementConstructor(elementContainer) {
