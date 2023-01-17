@@ -181,6 +181,7 @@ function buildsElementsOfTheQuestionsCriationPage() {
   container.innerHTML += questionsContent;
 
   buildsQuestions();
+  updateQuestionsInputs();
 }
 
 function buildsQuestions() {

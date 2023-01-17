@@ -1,4 +1,5 @@
 const BASE_API_URL = "https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes";
+let UPDATE_QUIZZ = {};
 
 checksForUserQuizzes();
 buildsAlQuizzesContainerElement();
@@ -178,13 +179,11 @@ function updateQuizz(id, key) {
 }
 
 function getTheQuizzDataToBeUpdated(id) {
-  let quizz = {};
-
   axios
     .get(`${BASE_API_URL}/${id}`)
     .then((res) => {
-      quizz = res.data;
-      updateInitalsInputs(quizz);
+      UPDATE_QUIZZ = res.data;
+      updateInitalsInputs();
     })
     .catch((err) => {
       console.error(err);
@@ -192,11 +191,10 @@ function getTheQuizzDataToBeUpdated(id) {
     });
 }
 
-function updateInitalsInputs(quizz) {
-  const { title, image, questions, levels } = quizz;
+function updateInitalsInputs() {
+  const { title, image, questions, levels } = UPDATE_QUIZZ;
   const numberOfQuestions = questions.length;
   const numberOfLevels = levels.length;
-
   const allInputs = document.querySelectorAll(".form-input");
 
   allInputs.forEach((element) => {
@@ -217,6 +215,65 @@ function updateInitalsInputs(quizz) {
     if (isNumbOfLevels) {
       element.value = numberOfLevels;
     }
+  });
+}
+
+function updateQuestionsInputs() {
+  const { questions } = UPDATE_QUIZZ;
+
+  questions.forEach((question, indexQuestion) => {
+    const { title, color, answers } = question;
+
+    const allQuestions = document.querySelectorAll(".form-box");
+
+    allQuestions.forEach((element, indexElement) => {
+      if (indexQuestion === indexElement) {
+        updateQuestionTitleAndColor(element, title, color);
+        updateAnswersInputs(element, answers);
+      }
+    });
+  });
+}
+
+function updateQuestionTitleAndColor(element, title, color) {
+  const allInputs = element.querySelectorAll(".title-color .form-input");
+
+  allInputs.forEach((element) => {
+    const isTitle = element.classList.contains("input-title");
+    const isColor = element.classList.contains("input-color");
+
+    if (isTitle) {
+      element.value = title;
+    }
+    if (isColor) {
+      element.value = color;
+    }
+  });
+}
+
+function updateAnswersInputs(element, answers) {
+  const answersInputs = element.querySelectorAll(".answers");
+
+  answersInputs.forEach((answerBox, answerBoxIndex) => {
+    const inputs = answerBox.querySelectorAll(".form-input");
+
+    inputs.forEach((input) => {
+      const isText = input.classList.contains("input-txt");
+      const isImage = input.classList.contains("input-image");
+
+      answers.forEach((answer, answerIndex) => {
+        const { text, image } = answer;
+
+        if (answerBoxIndex === answerIndex) {
+          if (isText) {
+            input.value = text;
+          }
+          if (isImage) {
+            input.value = image;
+          }
+        }
+      });
+    });
   });
 }
 
