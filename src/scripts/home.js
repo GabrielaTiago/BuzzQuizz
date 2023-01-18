@@ -179,7 +179,7 @@ function deleteFromLocalStorage(id) {
 function updateQuizzData(id, key) {
   openNewQuizzPage();
   getTheQuizzDataToBeUpdated(id);
-  UPDATE_ID = id
+  UPDATE_ID = id;
   UPDATE_KEY = key;
 }
 
@@ -345,4 +345,22 @@ function updateQuizz() {
 function elementConstructor(elementContainer) {
   const container = document.querySelector(".home-page-container");
   container.innerHTML += elementContainer;
+}
+
+function startsLoading() {
+  const container = document.querySelector("body");
+  const loadingHTML = `
+    <div class="modal-loading">
+      <img
+        class="spinner"
+        src="src/assets/img/spinner.gif"
+        alt="spinner-gif"
+      />
+    </div>
+  `;
+  container.innerHTML += loadingHTML;
+}
+
+function endsLoading() {
+  document.querySelector(".modal-loading").remove();
 }
