@@ -10,6 +10,7 @@ function accessQuizz(id) {
 }
 
 function getQuizzData(id) {
+  startsLoading();
   axios
     .get(`${BASE_API_URL}/${id}`)
     .then((res) => {
@@ -20,7 +21,8 @@ function getQuizzData(id) {
       console.error(err);
       alert(`Erro ${err.status} - Problema ao carregar quizz`);
       window.location.reload();
-    });
+    })
+    .finally(() => endsLoading());
 }
 
 function buildsElementsOfThePlayQuizzPage(data) {

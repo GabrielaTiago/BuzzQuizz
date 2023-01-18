@@ -97,6 +97,7 @@ function getsUserQuizzes(userQuizzes) {
   userQuizzes.forEach((quizz) => {
     const { id, key } = quizz;
 
+    startsLoading();
     axios
       .get(`${BASE_API_URL}/${id}`)
       .then((res) => {
@@ -107,11 +108,13 @@ function getsUserQuizzes(userQuizzes) {
         console.error(err);
         alert(`Erro ${err.status} - Problema ao carregar seus quizzes`);
         window.location.reload();
-      });
+      })
+      .finally(() => endsLoading());
   });
 }
 
 function getsAllQuizzes() {
+  startsLoading();
   axios
     .get(BASE_API_URL)
     .then((res) => {
@@ -122,7 +125,8 @@ function getsAllQuizzes() {
       console.error(err);
       alert(`Erro ${err.status} - Problema ao carregar quizzes`);
       window.location.reload();
-    });
+    })
+    .finally(() => endsLoading());
 }
 
 function renderQuizzes(allQuizzes) {
@@ -150,6 +154,7 @@ function deleteQuizz(id, key) {
     return;
   }
 
+  startsLoading();
   axios
     .delete(requestURL, requestHeaders)
     .then((res) => {
@@ -164,7 +169,8 @@ function deleteQuizz(id, key) {
     .catch((err) => {
       console.error(err);
       alert(`Err ${err.message} - Problema ao deletar quiz`);
-    });
+    })
+    .finally(() => endsLoading());
 }
 
 function deleteFromLocalStorage(id) {
@@ -184,6 +190,7 @@ function updateQuizzData(id, key) {
 }
 
 function getTheQuizzDataToBeUpdated(id) {
+  startsLoading();
   axios
     .get(`${BASE_API_URL}/${id}`)
     .then((res) => {
@@ -193,7 +200,8 @@ function getTheQuizzDataToBeUpdated(id) {
     .catch((err) => {
       console.error(err);
       alert(`Erro ${err.status} - Problema ao buscar quiz`);
-    });
+    })
+    .finally(() => endsLoading());
 }
 
 function updateInitalsInputs() {
@@ -326,6 +334,7 @@ function updateQuizz() {
   const requestBody = QUIZZ;
   const requestHeaders = { headers: { "Secret-Key": UPDATE_KEY } };
 
+  startsLoading();
   axios
     .put(requestURL, requestBody, requestHeaders)
     .then((res) => {
@@ -339,7 +348,8 @@ function updateQuizz() {
     .catch((err) => {
       console.error(err);
       alert(`Erro ${err.status} - Problema ao atualizar o quiz`);
-    });
+    })
+    .finally(() => endsLoading());
 }
 
 function elementConstructor(elementContainer) {
