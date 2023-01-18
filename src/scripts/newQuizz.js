@@ -630,6 +630,7 @@ function validatesTheDescriptionText(text, element) {
 }
 
 function postQuizzToTheServer() {
+  startsLoading();
   axios
     .post("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes", QUIZZ)
     .then((res) => {
@@ -644,7 +645,8 @@ function postQuizzToTheServer() {
     .catch((err) => {
       console.error(err);
       alert(`Erro ${err.status} - Problema ao criar quiz`);
-    });
+    })
+    .finally(() => endsLoading());
 }
 
 function buildsElementsOfTheCreatedQuizzPage(data) {
