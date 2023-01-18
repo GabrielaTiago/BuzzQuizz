@@ -217,4 +217,8 @@ function scrollToTheNextElement(element) {
 
 function restartQuizz() {
   accessQuizz(quizzId);
+  quizzLevels = [];
+  numberOfQuestions = 0;
+  answeredQuestionsCounter = 0;
+  correctAnswersCounter = 0;
 }
