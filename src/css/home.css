@@ -115,7 +115,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-around;
   gap: 14px;
 }
 .quizz {
