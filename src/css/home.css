@@ -177,6 +177,22 @@ body {
   background-color: var(--color-red);
   color: var(--color-white);
 }
+.modal-loading {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.8);
+}
+.spinner {
+  width: 125px;
+}
+
 @media screen and (min-width: 1051px) {
   .home-page-container {
     width: 1051px;
