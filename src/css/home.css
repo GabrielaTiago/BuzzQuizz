@@ -214,6 +214,10 @@ body {
   .quizzes-title-container {
     justify-content: space-between;
   }
+  .all-quizzes,
+  .all-user-quizzes {
+    justify-content: space-between;
+  }
 }
 
 @media (max-width: 750px) {
@@ -227,5 +231,14 @@ body {
   .quizzes-title-container,
   .quizz {
     width: 95%;
+  }
+  .user-quizzes-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .all-quizzes,
+  .all-user-quizzes {
+    justify-content: center;
   }
 }
