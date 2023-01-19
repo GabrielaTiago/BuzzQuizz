@@ -63,8 +63,14 @@ $~$
 
 <p align="center">
     <h5>Jogando o quiz:</h5>
+      https://user-images.githubusercontent.com/77814822/213331495-df834c60-375a-448a-9543-af0da76e7c65.mp4
+
     <h5>Criando um novo quiz:</h5>
-    <h5>Editando, validações e deleção de um quiz:</h5>
+      https://user-images.githubusercontent.com/77814822/213331563-93c28402-1cb3-475a-80cb-0bd1bd50da38.mp4   
+      
+    <h5>Editando, validações e deleção de um quiz:
+      https://user-images.githubusercontent.com/77814822/213331705-5db0e2ab-c279-47a8-be9c-e48dc3134fc6.mp4
+</h5>
 
 </p>
 
