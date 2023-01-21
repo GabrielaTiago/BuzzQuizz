@@ -46,14 +46,15 @@ Para que você consiga criar um quiz, atente-se aos seguintes critérios:
 
 ### :computer: Telas
 
-<div align="center">
-    <h5>Desktop:</h5>
-    <img src="src/assets/screen/large-screen.gif" alt="viewing the app on a large screen">
-    <h5>Tablet:</h5>
-    <img src="src/assets/screen/medium-screen.gif" alt="viewing the app on a medium screen">
-    <h5>Mobile:</h5>
-    <img src="src/assets/screen/mobile-screen.gif" alt="viewing the app on a small screen">
-</div>
+##### Desktop:
+
+<img src="src/assets/screen/large-screen.gif" alt="viewing the app on a large screen">
+
+##### Tablet:
+<img src="src/assets/screen/medium-screen.gif" alt="viewing the app on a medium screen">
+
+##### Mobile:
+<img src="src/assets/screen/mobile-screen.gif" alt="viewing the app on a small screen">
 
 $~$
 
@@ -65,11 +66,9 @@ $~$
 
 https://user-images.githubusercontent.com/77814822/213331495-df834c60-375a-448a-9543-af0da76e7c65.mp4
 
-
 ##### Criando um novo quiz:
 
 https://user-images.githubusercontent.com/77814822/213331563-93c28402-1cb3-475a-80cb-0bd1bd50da38.mp4
-
 
 ##### Editando, validações e deleção de um quiz:
 
