@@ -1,27 +1,23 @@
-<p align="center">
-<img src="src/assets/img/buzzfeed-icon.png" height="80px"/>
-</p>
+<p align="center"><img src="src/assets/img/buzzfeed-icon.png" height="80px"/></p>
 
 # <p align = "center">BuzzQuizz</p>
 
 ### <p align = "center">Inspiração do site BuzzFeed </p>
 
 <p align = "center">
-   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" heigth="30px"/>
-   <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" height="30px"/>
-    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" height="30px"/>
-   <img src="https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E" heigth="30px"/>
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" heigth="30px"/>
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" height="30px"/>
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" height="30px"/>
+  <img src="https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E" heigth="30px"/>
 </p>
 
-### :clipboard: Descrição
+## :clipboard: Descrição
 
 Este projeto é uma aplicação web inspirada nas funcionalidades do Buzzfeed. Ele permite aos usuários visualizar e criar quizzes divertidos e interativos. Com uma interface fácil de usar, os usuários podem navegar pelos quizzes disponíveis, criar seus próprios. Além disso, os usuários podem editar e deletar os quizzes que criaram. Dê uma olhada e divirta-se!
 
-#### 🖱️ [Acesse aqui](https://gabrielatiago.github.io/BuzzQuizz/)
+🖱️ [**Acesse aqui**](https://gabrielatiago.github.io/BuzzQuizz/)
 
----
-
-### 🚨 Validações
+## 🚨 Validações
 
 Para que você consiga criar um quiz, atente-se aos seguintes critérios:
 
@@ -42,43 +38,36 @@ Para que você consiga criar um quiz, atente-se aos seguintes critérios:
   - Descrição do nível: mínimo de 30 caracteres
   - É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
 
----
+## :computer: Telas
 
-### :computer: Telas
+### Desktop
 
-##### Desktop:
+![app view on a large screen](src/assets/screen/large-screen.gif)
+<img src="" alt="viewing the ">
 
-<img src="src/assets/screen/large-screen.gif" alt="viewing the app on a large screen">
+### Tablet
 
-##### Tablet:
-<img src="src/assets/screen/medium-screen.gif" alt="viewing the app on a medium screen">
+![app view on a medium screen](src/assets/screen/medium-screen.gif)
 
-##### Mobile:
-<img src="src/assets/screen/mobile-screen.gif" alt="viewing the app on a small screen">
+### Mobile
 
-$~$
+![app view on a mobile screen](src/assets/screen/mobile-screen.gif)
 
----
+## 🎮 Usando
 
-### 🎮 Usando
-
-##### Jogando o quiz:
+### Jogando o quiz
 
 https://user-images.githubusercontent.com/77814822/213331495-df834c60-375a-448a-9543-af0da76e7c65.mp4
 
-##### Criando um novo quiz:
+### Criando um novo quiz
 
 https://user-images.githubusercontent.com/77814822/213331563-93c28402-1cb3-475a-80cb-0bd1bd50da38.mp4
 
-##### Editando, validações e deleção de um quiz:
+### Editando, validações e deleção de um quiz
 
 https://user-images.githubusercontent.com/77814822/213331705-5db0e2ab-c279-47a8-be9c-e48dc3134fc6.mp4
 
-$~$
-
----
-
-### :books: Lições Aprendidas
+## :books: Lições Aprendidas
 
 - Utilização de múltiplos arquivos JS e CSS em um único projeto
 - Consumo de uma API
@@ -90,18 +79,24 @@ $~$
 - Código limpo
 - Linguagem Markdown
 
----
-
-### :bulb: Reconhecimentos
+## :bulb: Reconhecimentos
 
 - [Badges para Github](https://github.com/alexandresanlim/Badges4-README.md-Profile#-database-)
-- [README Inspiração de README](https://gist.github.com/luanalessa/7f98467a5ed62d00dcbde67d4556a1e4#file-readme-md)
+- [Inspiração de README](https://gist.github.com/luanalessa/7f98467a5ed62d00dcbde67d4556a1e4#file-readme-md)
 - [Driven Education](https://www.driven.com.br)
 
----
+## :muscle: Contribuição
 
-### 👩‍🦱 Autora
+Contribuições são bem-vindas! Se você encontrar algum problema ou tiver sugestões de melhoria, abra uma *issue* ou envie um *pull request*.
 
-- Gabriela Tiago é uma aluna de desenvolvimento web de Fullstack na Driven Education. Percorrendo o caminho do conhecimento, buscando aprimorar suas habilidades técnicas e de softskills, para que ela possa melhorar o trabalho que desenvolve.
+## :woman_technologist: Autora
 
-<br>[🔝 De volta ao topo](#buzzquizz)<br>
+Gabriela Tiago de Araújo
+
+- email: <gabrielatiagodearaujo@outlook.com>
+- linkedin: <https://www.linkedin.com/in/gabrielatiago/>
+- portfolio: <https://gabrielatiago.vercel.app>
+
+$~$
+
+[🔝 De volta ao topo](#buzzquizz)
